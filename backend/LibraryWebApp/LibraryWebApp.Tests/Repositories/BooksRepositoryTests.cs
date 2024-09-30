@@ -1,6 +1,7 @@
 ﻿using LibraryWebApp.Domain.Entities;
 using LibraryWebApp.Persistence;
 using LibraryWebApp.Persistence.Repositories;
+using LibraryWebApp.Tests;
 using Microsoft.EntityFrameworkCore;
 
 public class BooksRepositoryTests
@@ -10,40 +11,8 @@ public class BooksRepositoryTests
 
     public BooksRepositoryTests()
     {
-        var options = new DbContextOptionsBuilder<LibraryWebAppDbContext>()
-            .UseInMemoryDatabase(databaseName: "LibraryTestDb")
-            .Options;
-
-        _context = new LibraryWebAppDbContext(options);
+        _context = TestDbContext.Create();
         _repository = new BooksRepository(_context);
-
-        SeedDatabase();
-    }
-
-    private void SeedDatabase()
-    {
-        var author = new AuthorEntity
-        {
-            Id = Guid.NewGuid(),
-            FirstName = "George",
-            LastName = "Orwell",
-            BirthDate = new DateOnly(1903, 6, 25)
-        };
-
-        var book = new BookEntity
-        {
-            Id = Guid.NewGuid(),
-            ISBN = 123456789,
-            Title = "1984",
-            Genre = "Dystopian",
-            Description = "A novel about a dystopian future.",
-            Author = author,
-            AuthorId = author.Id
-        };
-
-        _context.Authors.Add(author);
-        _context.Books.Add(book);
-        _context.SaveChanges();
     }
 
     [Fact]
@@ -69,9 +38,9 @@ public class BooksRepositoryTests
         {
             Id = Guid.NewGuid(),
             ISBN = 987654321,
-            Title = "Animal Farm",
-            Genre = "Political Satire",
-            Description = "A story about a farm run by animals.",
+            Title = "Title2",
+            Genre = "Fantasy",
+            Description = "Who moves fisrt is :)",
             AuthorId = _context.Authors.First().Id,
             Author = author
         };
@@ -81,7 +50,7 @@ public class BooksRepositoryTests
         await _context.SaveChangesAsync();
 
         // Assert
-        var bookFromDb = await _context.Books.FirstOrDefaultAsync(b => b.ISBN == newBook.ISBN);
+        var bookFromDb = await _context.Books.FirstOrDefaultAsync(b => b.Id == newBook.Id);
         Assert.NotNull(bookFromDb);
         Assert.Equal(newBook.Title, bookFromDb.Title);
     }

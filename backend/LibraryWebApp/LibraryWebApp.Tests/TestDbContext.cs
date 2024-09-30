@@ -1,16 +1,41 @@
 ﻿using LibraryWebApp.Domain.Entities;
+using LibraryWebApp.Persistence;
 using Microsoft.EntityFrameworkCore;
 
 namespace LibraryWebApp.Tests
 {
-    public class TestDbContext : DbContext
+    public class TestDbContext
     {
-        public TestDbContext(DbContextOptions<TestDbContext> options) : base(options)
-        { }
+        public static LibraryWebAppDbContext Create()
+        {
+            var options = new DbContextOptionsBuilder<LibraryWebAppDbContext>()
+                .UseInMemoryDatabase(Guid.NewGuid().ToString())
+                .Options;
+            var context = new LibraryWebAppDbContext(options);
+            context.Database.EnsureCreated();
 
-        public DbSet<BookEntity> Books { get; set; }
-        public DbSet<AuthorEntity> Authors { get; set; }
-        public DbSet<UserEntity> Users { get; set; }
+            var author = new AuthorEntity
+            {
+                Id = Guid.NewGuid(),
+                FirstName = "AuthorName",
+                LastName = "AuthorSurname",
+                BirthDate = new DateOnly(2000, 01, 01)
+            };
+            var book = new BookEntity
+            {
+                Id = Guid.NewGuid(),
+                ISBN = 123456789,
+                Title = "Book1",
+                Genre = "Fantasy",
+                Description = "English or spanish?",
+                Author = author,
+                AuthorId = author.Id
+            };
+            context.Authors.Add(author);
+            context.Books.Add(book);
+            context.SaveChanges();
 
+            return context;
+        }
     }
 }
