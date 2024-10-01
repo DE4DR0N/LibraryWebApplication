@@ -17,7 +17,7 @@ namespace LibraryWebApp.Tests.Repositories
         }
 
         [Fact]
-        public async Task GetByIsbnAsync_ShouldReturnBook_WhenBookExists()
+        public async Task GetByIsbnAsync()
         {
             // Arrange
             long isbn = 123456789;
@@ -31,7 +31,7 @@ namespace LibraryWebApp.Tests.Repositories
         }
 
         [Fact]
-        public async Task AddAsync_ShouldAddBookToDatabase()
+        public async Task AddAsync()
         {
             var author = _context.Authors.First();
             // Arrange
