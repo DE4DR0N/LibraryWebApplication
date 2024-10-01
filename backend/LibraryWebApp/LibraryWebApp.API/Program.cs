@@ -107,6 +107,13 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseCors(options =>
+{
+    options.WithHeaders().AllowAnyHeader();
+    options.WithOrigins("http://localhost:3000");
+    options.WithMethods().AllowAnyMethod();
+};
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
