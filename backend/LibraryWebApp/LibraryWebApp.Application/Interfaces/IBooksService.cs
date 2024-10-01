@@ -9,6 +9,7 @@ namespace LibraryWebApp.Application.Interfaces
         Task<IEnumerable<BookViewModel>> GetAllBooksAsync(PaginationViewModel paginationParams);
         Task<BookViewModel> GetBookByIdAsync(Guid id);
         Task<BookViewModel> GetBookByISBNAsync(long isbn);
+        Task<IEnumerable<BookViewModel>> GetBooksByUserAsync(Guid userId);
         Task UpdateBookAsync(BookViewModel bookDto);
         Task IssueBookToUserAsync(Guid bookId, Guid userId, DateOnly returnDate);
         Task ReturnBookAsync(Guid bookId);

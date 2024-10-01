@@ -79,5 +79,11 @@ namespace LibraryWebApp.Application.Services
             await _unitOfWork.Books.ReturnBookAsync(bookId);
             await _unitOfWork.CompleteAsync();
         }
+
+        public async Task<IEnumerable<BookViewModel>> GetBooksByUserAsync(Guid userId)
+        {
+            var books = await _unitOfWork.Books.GetBooksByUserAsync(userId);
+            return _mapper.Map<IEnumerable<BookViewModel>>(books);
+        }
     }
 }

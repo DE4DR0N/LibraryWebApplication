@@ -32,7 +32,7 @@ namespace LibraryWebApp.API.Controllers
             return Ok(book);
         }
 
-        [HttpPost("AddBook")]
+        [HttpPost("addBook")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PostBook([FromBody] BookViewModel book)
         {
@@ -42,7 +42,7 @@ namespace LibraryWebApp.API.Controllers
             return CreatedAtAction(nameof(GetBook), new {id = book.Id}, book);
         }
 
-        [HttpPut("UpdateBook/{id}")]
+        [HttpPut("updateBook/{id}")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PutBook(Guid id, [FromBody] BookViewModel book)
         {
@@ -53,7 +53,7 @@ namespace LibraryWebApp.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("DeleteBook/{id}")]
+        [HttpDelete("deleteBook/{id}")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteBook(Guid id)
         {
@@ -61,7 +61,7 @@ namespace LibraryWebApp.API.Controllers
             return NoContent();
         }
 
-        [HttpPost("Issue")]
+        [HttpPost("issue")]
         [Authorize]
         public async Task<IActionResult> IssueBookToUser(IssueBookViewModel issueBookDto)
         {
@@ -69,7 +69,7 @@ namespace LibraryWebApp.API.Controllers
             return Ok("Book issued to user");
         }
 
-        [HttpPost("Return")]
+        [HttpPost("return")]
         [Authorize]
         public async Task<IActionResult> ReturnBook(Guid bookId)
         {

@@ -35,7 +35,7 @@ namespace LibraryWebApp.API.Controllers
             return Ok(author);
         }
 
-        [HttpPost("AddAuthor")]
+        [HttpPost("addAuthor")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<ActionResult<AuthorViewModel>> PostAuthor([FromBody]AuthorViewModel authorDto)
         {
@@ -45,7 +45,7 @@ namespace LibraryWebApp.API.Controllers
             return CreatedAtAction(nameof(GetAuthor), new { id = authorDto.Id }, authorDto);
         }
 
-        [HttpPut("UpdateAuthor/{id}")]
+        [HttpPut("updateAuthor/{id}")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PutAuthor(Guid id, [FromBody] AuthorViewModel authorDto)
         {
@@ -55,7 +55,7 @@ namespace LibraryWebApp.API.Controllers
             return NoContent();
         }
 
-        [HttpDelete("DeleteAuthor/{id}")]
+        [HttpDelete("deleteAuthor/{id}")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteAuthor(Guid id)
         {

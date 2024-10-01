@@ -15,7 +15,7 @@ namespace LibraryWebApp.API.Controllers
             _authService = authService;
         }
 
-        [HttpPost("Register")]
+        [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterViewModel model)
         {
             if (ModelState.IsValid)
@@ -33,7 +33,7 @@ namespace LibraryWebApp.API.Controllers
             return BadRequest(ModelState);
         }
 
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -50,7 +50,7 @@ namespace LibraryWebApp.API.Controllers
 
             return BadRequest(ModelState);
         }
-        [HttpPost("RefreshToken")]
+        [HttpPost("refreshToken")]
         public async Task<IActionResult> RefreshToken(RefreshTokenViewModel model)
         {
             var loginResult = await _authService.RefreshTokenAsync(model);

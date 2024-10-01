@@ -28,7 +28,7 @@ namespace LibraryWebApp.Persistence
                 Role = "Admin"
             };
 
-            var existingUser = await unitOfWork.Users.GetByUserNameAsync(adminUser.UserName);
+            var existingUser = await unitOfWork.Users.GetByUsernameAsync(adminUser.UserName);
             if (existingUser == null)
             {
                 await unitOfWork.Users.AddAsync(adminUser);

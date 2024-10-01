@@ -16,17 +16,12 @@ namespace LibraryWebApp.Persistence.Repositories
             await _context.Users.AddAsync(user);
         }
 
-        public async Task<IEnumerable<BookEntity>> GetBooksByUserAsync(Guid userId)
-        {
-            return await _context.Books.Where(b => b.UserId == userId).AsNoTracking().ToListAsync();
-        }
-
         public async Task<UserEntity> GetByIdAsync(Guid id)
         {
             return await _context.Users.AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
         }
 
-        public async Task<UserEntity> GetByUserNameAsync(string username)
+        public async Task<UserEntity> GetByUsernameAsync(string username)
         {
             return await _context.Users.AsNoTracking().FirstOrDefaultAsync(b => b.UserName == username);
         }

@@ -24,7 +24,7 @@ namespace LibraryWebApp.Application.Services
         public async Task<LoginResponseViewModel> LoginAsync(LoginViewModel model)
         {
             var response = new LoginResponseViewModel();
-            var user = await _unitOfWork.Users.GetByUserNameAsync(model.Username);
+            var user = await _unitOfWork.Users.GetByUsernameAsync(model.Username);
             if (user != null && BCrypt.Net.BCrypt.EnhancedVerify(model.Password, user.PasswordHash))
             {
                 var claims = new List<Claim>
@@ -49,7 +49,7 @@ namespace LibraryWebApp.Application.Services
         }
         public async Task<bool> RegisterAsync(RegisterViewModel model)
         {
-            var user = await _unitOfWork.Users.GetByUserNameAsync(model.Username);
+            var user = await _unitOfWork.Users.GetByUsernameAsync(model.Username);
             if (user != null)
             {
                 return false;
@@ -72,7 +72,7 @@ namespace LibraryWebApp.Application.Services
             var response = new LoginResponseViewModel();
             if (principal?.Identity?.Name is null) return response;
 
-            var identityUser = await _unitOfWork.Users.GetByUserNameAsync(principal.Identity.Name);
+            var identityUser = await _unitOfWork.Users.GetByUsernameAsync(principal.Identity.Name);
             if (identityUser is null || identityUser.RefreshToken != model.RefreshToken || identityUser.RefreshTokenExpiry > DateTime.Now) 
                 return response;
             var claims = new List<Claim>
