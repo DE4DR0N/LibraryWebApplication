@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import AuthService from './services/AuthService';
+import AuthService from '../services/authService';
 import { TextField, Button, Container, Typography, Box } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
