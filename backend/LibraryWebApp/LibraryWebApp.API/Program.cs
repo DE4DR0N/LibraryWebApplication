@@ -58,6 +58,16 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 #endregion
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:3000");
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+    });
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -107,12 +117,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.UseCors(options =>
-{
-    options.WithHeaders().AllowAnyHeader();
-    options.WithOrigins("http://localhost:3000");
-    options.WithMethods().AllowAnyMethod();
-});
+app.UseCors();
 
 using (var scope = app.Services.CreateScope())
 {
