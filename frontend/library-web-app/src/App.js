@@ -7,7 +7,8 @@ import RegisterPage from './pages/RegisterPage';
 import BookList from './pages/BookListPage';
 import AddEditBookPage from './pages/AddEditBookPage';
 import BookDetailsPage from './pages/BookDetailsPage';
-import AuthorDetailsPage from './pages/AuthorDetailsPage';
+import UserProfilePage from './pages/UserProfilePage';
+import Navbar from './components/Navbar';
 import authService from './services/authService';
 
 const theme = createTheme({
@@ -47,6 +48,7 @@ const App = () => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Router>
+        <Navbar />
         <Container>
           <Routes>
             <Route path="/login" element={<LoginPage />} />
@@ -84,14 +86,14 @@ const App = () => {
               }
             />
             <Route
-              path="/authors/:id"
+              path="/user/:id"
               element={
                 <PrivateRoute>
-                  <AuthorDetailsPage />
+                  <UserProfilePage />
                 </PrivateRoute>
               }
             />
-            <Route path="*" element={<Navigate to="/login" />} />
+            <Route path="*" element={<Navigate to="/books" />} />
           </Routes>
         </Container>
       </Router>

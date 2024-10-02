@@ -43,5 +43,10 @@ namespace LibraryWebApp.Persistence.Repositories
             var author = await _context.Authors.FindAsync(id);
             if (author != null) _context.Authors.Remove(author);
         }
+
+        public async Task<AuthorEntity> GetAuthorByNameAsync(string firstname, string lastname)
+        {
+            return await _context.Authors.AsNoTracking().FirstOrDefaultAsync(a => a.FirstName == firstname && a.LastName == lastname);
+        }
     }
 }

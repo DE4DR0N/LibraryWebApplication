@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Container, TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
+import { Container, TextField, Button, Typography, Box, CircularProgress, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
 import bookService from '../services/bookService';
+import authorService from '../services/authorService';
 
 const AddEditBookPage = () => {
     const { id } = useParams();
@@ -10,12 +11,26 @@ const AddEditBookPage = () => {
 
     const [book, setBook] = useState({
         title: '',
+        isbn: '',
         description: '',
         genre: '',
-        authorFirstName: '',
-        authorLastName: ''
+        authorId: ''
     });
+    const [authors, setAuthors] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        const fetchAuthors = async () => {
+            try {
+                const response = await authorService.getAllAuthors();
+                console.log(response.data)
+                setAuthors(response.data);
+            } catch (err) {
+                console.error('Error fetching authors:', err);
+            }
+        };
+        fetchAuthors();
+    }, []);
 
     useEffect(() => {
         if (isEditMode) {
@@ -25,10 +40,10 @@ const AddEditBookPage = () => {
                     const response = await bookService.getBookById(id);
                     setBook({
                         title: response.data.title,
+                        isbn: response.data.isbn,
                         description: response.data.description,
                         genre: response.data.genre,
-                        authorFirstName: response.data.author.firstName,
-                        authorLastName: response.data.author.lastName
+                        authorId: response.data.author.id
                     });
                 } catch (err) {
                     console.error('Error fetching book:', err);
@@ -91,6 +106,15 @@ const AddEditBookPage = () => {
                     required
                 />
                 <TextField
+                    label="ISBN"
+                    name="isbn"
+                    value={book.isbn}
+                    onChange={handleChange}
+                    fullWidth
+                    margin="normal"
+                    required
+                />
+                <TextField
                     label="Description"
                     name="description"
                     value={book.description}
@@ -108,24 +132,24 @@ const AddEditBookPage = () => {
                     margin="normal"
                     required
                 />
-                <TextField
-                    label="Author First Name"
-                    name="authorFirstName"
-                    value={book.authorFirstName}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    required
-                />
-                <TextField
-                    label="Author Last Name"
-                    name="authorLastName"
-                    value={book.authorLastName}
-                    onChange={handleChange}
-                    fullWidth
-                    margin="normal"
-                    required
-                />
+                
+                <FormControl fullWidth margin="normal">
+                    <InputLabel id="author-label">Author</InputLabel>
+                    <Select
+                        labelId="author-label"
+                        name="authorId"
+                        value={book.authorId}
+                        onChange={handleChange}
+                        required
+                    >
+                        {authors.map((author) => (
+                            <MenuItem key={author.id} value={author.id}>
+                                {author.firstName} {author.lastName}
+                            </MenuItem>
+                        ))}
+                    </Select>
+                </FormControl>
+
                 <Box mt={2}>
                     <Button type="submit" variant="contained" color="primary">
                         {isEditMode ? 'Update Book' : 'Add Book'}

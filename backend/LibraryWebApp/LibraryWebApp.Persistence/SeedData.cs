@@ -50,7 +50,7 @@ namespace LibraryWebApp.Persistence
 
             foreach (var author in authors)
             {
-                var existingAuthor = await unitOfWork.Authors.GetByIdAsync(author.Id);
+                var existingAuthor = await unitOfWork.Authors.GetAuthorByNameAsync(author.FirstName, author.LastName);
                 if (existingAuthor == null)
                 {
                     await unitOfWork.Authors.AddAsync(author);

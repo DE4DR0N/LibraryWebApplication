@@ -24,7 +24,7 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<AuthorViewModel>> GetAuthor(Guid id)
         {
             var author = await _authorsService.GetAuthorByIdAsync(id);

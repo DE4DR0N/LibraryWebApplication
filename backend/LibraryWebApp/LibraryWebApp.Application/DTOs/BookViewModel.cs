@@ -8,6 +8,7 @@
         public required string Genre { get; set; }
         public required string Description { get; set; }
         public Guid AuthorId { get; set; }
+        public AuthorViewModel Author { get; set; }
         public Guid? UserId { get; set; }
         public DateOnly? BorrowDate { get; set; }
         public DateOnly? ReturnDate { get; set; }

@@ -87,7 +87,7 @@ function BookDetailsPage({ isAdmin }) {
                     <Typography variant="h4">{book.title}</Typography>
                     <Typography variant="body1" gutterBottom>{book.description}</Typography>
                     <Typography variant="subtitle1">Genre: {book.genre}</Typography>
-                    <Typography variant="subtitle1">Author: {book.author.firstName} {book.author.lastName}</Typography>
+                    <Typography variant="subtitle1">Author: {book.author ? `${book.author.firstName} ${book.author.lastName}` : 'Unknown'}</Typography>
 
                     {book.isAvailable ? (
                         <Button variant="contained" color="primary" onClick={handleBorrow}>Borrow</Button>

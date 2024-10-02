@@ -42,6 +42,7 @@ const LoginPage = () => {
                 />
                 {error && <Typography color="error">{error}</Typography>}
                 <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>Login</Button>
+                <Button href='/Register'>Registration</Button>
             </Box>
         </Container>
     );
