@@ -10,6 +10,6 @@ namespace LibraryWebApp.Application.DTOs.UserDTOs
         public required string Role { get; set; }
         public string? RefreshToken { get; set; }
         public DateTime RefreshTokenExpiryTime { get; set; }
-        public ICollection<BookViewModel>? Books { get; set; }
+        public ICollection<BookResponseViewModel>? Books { get; set; }
     }
 }

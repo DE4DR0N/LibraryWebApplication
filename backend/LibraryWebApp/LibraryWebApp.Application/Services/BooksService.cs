@@ -18,35 +18,37 @@ namespace LibraryWebApp.Application.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<BookViewModel>> GetAllBooksAsync(PaginationViewModel model)
+        public async Task<IEnumerable<BookResponseViewModel>> GetAllBooksAsync(PaginationViewModel model)
         {
             var books = await _unitOfWork.Books.GetAllAsync();
             var pagedBooks = books.AsQueryable().ApplyPagination(model);
-            return _mapper.Map<IEnumerable<BookViewModel>>(pagedBooks);
+            return _mapper.Map<IEnumerable<BookResponseViewModel>>(pagedBooks);
         }
 
-        public async Task<BookViewModel> GetBookByIdAsync(Guid id)
+        public async Task<BookResponseViewModel> GetBookByIdAsync(Guid id)
         {
             var book = await _unitOfWork.Books.GetByIdAsync(id);
-            return _mapper.Map<BookViewModel>(book);
+            return _mapper.Map<BookResponseViewModel>(book);
         }
 
-        public async Task<BookViewModel> GetBookByISBNAsync(long isbn)
+        public async Task<BookResponseViewModel> GetBookByISBNAsync(long isbn)
         {
             var book = await _unitOfWork.Books.GetByIsbnAsync(isbn);
-            return _mapper.Map<BookViewModel>(book);
+            return _mapper.Map<BookResponseViewModel>(book);
         }
 
-        public async Task AddBookAsync(BookViewModel bookDto)
+        public async Task<BookResponseViewModel> AddBookAsync(BookViewModel bookDto)
         {
             var book = _mapper.Map<BookEntity>(bookDto);
             await _unitOfWork.Books.AddAsync(book);
             await _unitOfWork.CompleteAsync();
+            return _mapper.Map<BookResponseViewModel>(book);
         }
 
-        public async Task UpdateBookAsync(BookViewModel bookDto)
+        public async Task UpdateBookAsync(Guid id, BookViewModel bookDto)
         {
             var book = _mapper.Map<BookEntity>(bookDto);
+            book.Id = id;
             await _unitOfWork.Books.UpdateAsync(book);
             await _unitOfWork.CompleteAsync();
         }
@@ -64,7 +66,10 @@ namespace LibraryWebApp.Application.Services
             {
                 throw new Exception("Book not found");
             }
-
+            if (book.UserId != null)
+            {
+                throw new Exception("Book is already issued");
+            }
             await _unitOfWork.Books.IssueBookToUserAsync(bookId, userId, DateOnly.FromDateTime(DateTime.Now), returnDate);
             await _unitOfWork.CompleteAsync();
         }
@@ -76,15 +81,18 @@ namespace LibraryWebApp.Application.Services
             {
                 throw new Exception("Book not found");
             }
-
+            if (book.UserId == null)
+            {
+                throw new Exception("Book is already returned");
+            }
             await _unitOfWork.Books.ReturnBookAsync(bookId);
             await _unitOfWork.CompleteAsync();
         }
 
-        public async Task<IEnumerable<BookViewModel>> GetBooksByUserAsync(Guid userId)
+        public async Task<IEnumerable<BookResponseViewModel>> GetBooksByUserAsync(Guid userId)
         {
             var books = await _unitOfWork.Books.GetBooksByUserAsync(userId);
-            return _mapper.Map<IEnumerable<BookViewModel>>(books);
+            return _mapper.Map<IEnumerable<BookResponseViewModel>>(books);
         }
     }
 }

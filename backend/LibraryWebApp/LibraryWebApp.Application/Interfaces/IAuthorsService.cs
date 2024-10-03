@@ -4,10 +4,10 @@ namespace LibraryWebApp.Application.Interfaces
 {
     public interface IAuthorsService
     {
-        Task AddAuthorAsync(AuthorViewModel authorDto);
+        Task<AuthorResponseViewModel> AddAuthorAsync(AuthorViewModel authorDto);
         Task DeleteAuthorAsync(Guid id);
-        Task<IEnumerable<AuthorViewModel>> GetAllAuthorsAsync();
-        Task<AuthorViewModel> GetAuthorByIdAsync(Guid id);
-        Task UpdateAuthorAsync(AuthorViewModel authorDto);
+        Task<IEnumerable<AuthorResponseViewModel>> GetAllAuthorsAsync();
+        Task<AuthorResponseViewModel> GetAuthorByIdAsync(Guid id);
+        Task UpdateAuthorAsync(Guid id, AuthorViewModel authorDto);
     }
 }

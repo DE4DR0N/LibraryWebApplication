@@ -1,10 +1,11 @@
 ﻿namespace LibraryWebApp.Application.DTOs.AuthorDTOs
 {
-    public class AuthorViewModel
+    public class AuthorResponseViewModel
     {
+        public Guid Id { get; set; }
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
-        public required DateOnly BirthDate { get; set; }
-        public required string Country { get; set; }
+        public DateOnly BirthDate { get; set; }
+        public string? Country { get; set; }
     }
 }
