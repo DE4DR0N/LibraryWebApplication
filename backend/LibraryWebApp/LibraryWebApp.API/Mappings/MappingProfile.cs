@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
-using LibraryWebApp.Application.DTOs;
+using LibraryWebApp.Application.DTOs.AuthorDTOs;
+using LibraryWebApp.Application.DTOs.BookDTOs;
+using LibraryWebApp.Application.DTOs.UserDTOs;
 using LibraryWebApp.Domain.Entities;
 
 namespace LibraryWebApp.API.Mappings

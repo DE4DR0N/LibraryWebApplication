@@ -1,4 +1,5 @@
 ﻿using LibraryWebApp.Application.DTOs;
+using LibraryWebApp.Application.DTOs.BookDTOs;
 
 namespace LibraryWebApp.Application.Interfaces
 {

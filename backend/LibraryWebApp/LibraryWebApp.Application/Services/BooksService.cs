@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using LibraryWebApp.Application.DTOs;
+using LibraryWebApp.Application.DTOs.BookDTOs;
 using LibraryWebApp.Application.Extensions;
 using LibraryWebApp.Application.Interfaces;
 using LibraryWebApp.Domain.Entities;
@@ -63,10 +64,7 @@ namespace LibraryWebApp.Application.Services
             {
                 throw new Exception("Book not found");
             }
-            if (book.UserId != null)
-            {
-                throw new Exception("Book is already issued");
-            }
+
             await _unitOfWork.Books.IssueBookToUserAsync(bookId, userId, DateOnly.FromDateTime(DateTime.Now), returnDate);
             await _unitOfWork.CompleteAsync();
         }
@@ -78,10 +76,7 @@ namespace LibraryWebApp.Application.Services
             {
                 throw new Exception("Book not found");
             }
-            if (book.UserId == null)
-            {
-                throw new Exception("Book is already returned");
-            }
+
             await _unitOfWork.Books.ReturnBookAsync(bookId);
             await _unitOfWork.CompleteAsync();
         }

@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using LibraryWebApp.Application.DTOs;
+using LibraryWebApp.Application.DTOs.UserDTOs;
 using LibraryWebApp.Application.Interfaces;
 using LibraryWebApp.Domain.Interfaces;
 

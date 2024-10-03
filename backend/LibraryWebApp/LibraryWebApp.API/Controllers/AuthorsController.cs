@@ -1,4 +1,4 @@
-﻿using LibraryWebApp.Application.DTOs;
+﻿using LibraryWebApp.Application.DTOs.AuthorDTOs;
 using LibraryWebApp.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
+        //[Authorize]
         public async Task<ActionResult<AuthorViewModel>> GetAuthor(Guid id)
         {
             var author = await _authorsService.GetAuthorByIdAsync(id);

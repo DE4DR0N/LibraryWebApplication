@@ -1,4 +1,4 @@
-﻿using LibraryWebApp.Application.DTOs;
+﻿using LibraryWebApp.Application.DTOs.AuthDTOs;
 using LibraryWebApp.Application.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 

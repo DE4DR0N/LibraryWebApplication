@@ -1,4 +1,4 @@
-﻿using LibraryWebApp.Application.DTOs;
+﻿using LibraryWebApp.Application.DTOs.UserDTOs;
 
 namespace LibraryWebApp.Application.Interfaces
 {
