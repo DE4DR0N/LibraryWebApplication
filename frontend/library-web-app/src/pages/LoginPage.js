@@ -11,8 +11,7 @@ const LoginPage = () => {
 
     const handleLogin = async () => {
         try {
-            const response = await AuthService.login(username, password);
-            console.log(response);
+            await AuthService.login(username, password);
             navigate('/Books')
         } catch (err) {
             setError('Invalid login credentials');
@@ -42,7 +41,7 @@ const LoginPage = () => {
                 />
                 {error && <Typography color="error">{error}</Typography>}
                 <Button variant="contained" color="primary" fullWidth onClick={handleLogin}>Login</Button>
-                <Button href='/Register'>Registration</Button>
+                <Button fullWidth href='/Register'>Registration</Button>
             </Box>
         </Container>
     );

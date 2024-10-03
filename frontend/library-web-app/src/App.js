@@ -29,12 +29,12 @@ const App = () => {
 
   useEffect(() => {
     const user = authService.getCurrentUser();
-    if (user) {
-      setIsAuthenticated(true);
-      // Assuming there's a way to check if the user is an admin
-      setIsAdmin(user.username === 'admin'); // Example condition, adapt it as needed
+    if (user && user.accessToken) {
+        setIsAuthenticated(true);
+        setIsAdmin(user.Role === 'Admin');
     }
-  }, []);
+}, []);
+
 
   const PrivateRoute = ({ children }) => {
     return isAuthenticated ? children : <Navigate to="/login" />;
@@ -53,46 +53,11 @@ const App = () => {
           <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route
-              path="/books"
-              element={
-                // <PrivateRoute>
-                  <BookList />
-                // </PrivateRoute>
-              }
-            />
-            <Route
-              path="/books/add"
-              element={
-                // <AdminRoute>
-                  <AddEditBookPage />
-                // </AdminRoute>
-              }
-            />
-            <Route
-              path="/books/updateBook/:id"
-              element={
-                // <AdminRoute>
-                  <AddEditBookPage />
-                // </AdminRoute>
-              }
-            />
-            <Route
-              path="/books/:id"
-              element={
-                // <PrivateRoute>
-                  <BookDetailsPage isAdmin={isAdmin} />
-                // </PrivateRoute>
-              }
-            />
-            <Route
-              path="/user/:id"
-              element={
-                // <PrivateRoute>
-                  <UserProfilePage />
-                // </PrivateRoute>
-              }
-            />
+            <Route path="/books" element={<BookList />} />
+            <Route path="/books/add" element={<AdminRoute><AddEditBookPage /></AdminRoute>} />
+            <Route path="/books/updateBook/:id" element={<AdminRoute><AddEditBookPage /></AdminRoute>} />
+            <Route path="/books/:id" element={<PrivateRoute><BookDetailsPage isAdmin={isAdmin} /></PrivateRoute>} />
+            <Route path="/user/:id" element={<PrivateRoute><UserProfilePage /></PrivateRoute>} />
             <Route path="*" element={<Navigate to="/books" />} />
           </Routes>
         </Container>

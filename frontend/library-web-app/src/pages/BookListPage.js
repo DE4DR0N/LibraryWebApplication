@@ -1,4 +1,3 @@
-// BookListPage.js
 import React, { useEffect, useState } from 'react';
 import bookService from '../services/bookService';
 import { Container, Typography, Button, Box, CircularProgress, Card, CardContent } from '@mui/material';
@@ -14,7 +13,7 @@ const BookList = () => {
             setLoading(true);
             try {
                 const response = await bookService.getAllBooks(page, pageSize);
-                console.log('Fetched books:', response.data);  // Debugging output
+                console.log('Fetched books:', response.data);
                 setBooks(response.data || []);
             } catch (error) {
                 console.error('Error fetching books:', error);

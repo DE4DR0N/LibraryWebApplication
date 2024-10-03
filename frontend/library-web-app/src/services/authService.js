@@ -1,30 +1,57 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const API_URL = 'http://localhost:5059/Auth/';
 
-const register = (username, password, confirmPassword) => {
-    return axios.post(`${API_URL}register`, { username, password, confirmPassword });
-};
+const register = async (username, password) => {
+    const response = await axios.post(`${API_URL}register`, { username, password })
+    if (response.data.token) {
+        Cookies.set('user', JSON.stringify(response.data.token), { expires: 7 });
+    }
+    return response.data;
+}
 
 const login = async (username, password) => {
     const response = await axios.post(`${API_URL}login`, { username, password });
     if (response.data.token) {
-        localStorage.setItem('user', JSON.stringify(response.data));
+        Cookies.set('user', JSON.stringify(response.data.token), { expires: 7 });
     }
     return response.data;
 };
 
-const refreshToken = (token, refreshToken) => {
-    return axios.post(`${API_URL}refreshToken`, { token, refreshToken });
+const logout = () => {
+    Cookies.remove('user');
 };
 
 const getCurrentUser = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
-    return user ? { username: user.username, userId: user.userId } : null;
+    const user = Cookies.get('user');
+    return user ? JSON.parse(user) : null;
 };
 
-const logout = () => {
-    localStorage.removeItem('user');
+const refreshToken = async () => {
+    const user = getCurrentUser();
+    const response = await axios.post(`${API_URL}refresh`, {
+        token: user.refreshToken
+    });
+    user.token = response.data.token;
+    Cookies.set('user', JSON.stringify(user), { expires: 7 });
+    return user.token;
 };
 
-export default { register, login, refreshToken, getCurrentUser, logout };
+const getAuthHeaders = () => {
+    const user = getCurrentUser();
+    return {
+        headers: {
+            'Authorization': `Bearer ${user.accessToken}`
+        }
+    };
+};
+
+export default {
+    register,
+    login,
+    logout,
+    getCurrentUser,
+    refreshToken,
+    getAuthHeaders
+};

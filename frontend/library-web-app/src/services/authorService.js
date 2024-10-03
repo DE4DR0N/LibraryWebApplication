@@ -1,9 +1,10 @@
 import axios from 'axios';
+import Cookies from 'js-cookie';
 
 const API_URL = 'http://localhost:5059/Authors/';
 
 const getAuthHeaders = () => {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(Cookies.get('user'));
     return {
         headers: {
             'Authorization': `Bearer ${user.token}`
