@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryWebApp.Persistence.Migrations
 {
     [DbContext(typeof(LibraryWebAppDbContext))]
-    [Migration("20240930205150_Initial")]
+    [Migration("20241003123533_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
