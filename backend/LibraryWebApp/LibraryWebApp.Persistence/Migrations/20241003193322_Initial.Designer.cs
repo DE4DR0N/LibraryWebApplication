@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LibraryWebApp.Persistence.Migrations
 {
     [DbContext(typeof(LibraryWebAppDbContext))]
-    [Migration("20241003123533_Initial")]
+    [Migration("20241003193322_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -35,6 +35,7 @@ namespace LibraryWebApp.Persistence.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -92,6 +93,9 @@ namespace LibraryWebApp.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("ISBN")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 

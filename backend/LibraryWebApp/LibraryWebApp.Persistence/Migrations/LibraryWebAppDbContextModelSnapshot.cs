@@ -32,6 +32,7 @@ namespace LibraryWebApp.Persistence.Migrations
                         .HasColumnType("date");
 
                     b.Property<string>("Country")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -89,6 +90,9 @@ namespace LibraryWebApp.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("AuthorId");
+
+                    b.HasIndex("ISBN")
+                        .IsUnique();
 
                     b.HasIndex("UserId");
 
