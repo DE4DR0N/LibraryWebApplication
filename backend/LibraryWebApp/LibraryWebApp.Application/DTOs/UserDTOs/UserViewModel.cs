@@ -1,4 +1,6 @@
-﻿namespace LibraryWebApp.Application.DTOs
+﻿using LibraryWebApp.Application.DTOs.BookDTOs;
+
+namespace LibraryWebApp.Application.DTOs.UserDTOs
 {
     public class UserViewModel
     {

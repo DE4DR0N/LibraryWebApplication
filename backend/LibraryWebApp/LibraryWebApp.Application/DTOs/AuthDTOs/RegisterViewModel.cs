@@ -1,4 +1,4 @@
-﻿namespace LibraryWebApp.Application.DTOs
+﻿namespace LibraryWebApp.Application.DTOs.AuthDTOs
 {
     public class RegisterViewModel
     {
