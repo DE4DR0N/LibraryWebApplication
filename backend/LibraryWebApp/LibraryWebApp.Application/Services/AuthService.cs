@@ -41,7 +41,7 @@ namespace LibraryWebApp.Application.Services
                 await _unitOfWork.Users.UpdateAsync(user);
                 await _unitOfWork.CompleteAsync();
                 response.IsLoggedIn = true;
-                response.Token = accessToken;
+                response.AccessToken = accessToken;
                 response.RefreshToken = refreshToken;
                 return response;
             }
@@ -90,7 +90,7 @@ namespace LibraryWebApp.Application.Services
             await _unitOfWork.CompleteAsync();
 
             response.IsLoggedIn = true;
-            response.Token = accessToken;
+            response.AccessToken = accessToken;
             response.RefreshToken = refreshToken;
             return response;
         }
