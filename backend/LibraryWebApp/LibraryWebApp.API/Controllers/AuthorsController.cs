@@ -17,15 +17,14 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AuthorViewModel>>> GetAuthors()
+        public async Task<ActionResult> GetAuthors()
         {
             var authors = await _authorsService.GetAllAuthorsAsync();
             return Ok(authors);
         }
 
         [HttpGet("{id}")]
-        //[Authorize]
-        public async Task<ActionResult<AuthorViewModel>> GetAuthor(Guid id)
+        public async Task<ActionResult> GetAuthor(Guid id)
         {
             var author = await _authorsService.GetAuthorByIdAsync(id);
             if (author == null)
@@ -37,12 +36,12 @@ namespace LibraryWebApp.API.Controllers
 
         [HttpPost("addAuthor")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<ActionResult<AuthorViewModel>> PostAuthor([FromBody]AuthorViewModel authorDto)
+        public async Task<ActionResult> PostAuthor([FromBody]AuthorViewModel authorDto)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _authorsService.AddAuthorAsync(authorDto);
-            return CreatedAtAction(nameof(GetAuthor), new { id = authorDto.Id }, authorDto);
+            var entity = await _authorsService.AddAuthorAsync(authorDto);
+            return CreatedAtAction(nameof(GetAuthor), new { id = entity.Id }, authorDto);
         }
 
         [HttpPut("updateAuthor/{id}")]
@@ -51,7 +50,7 @@ namespace LibraryWebApp.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _authorsService.UpdateAuthorAsync(authorDto);
+            await _authorsService.UpdateAuthorAsync(id, authorDto);
             return NoContent();
         }
 

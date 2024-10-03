@@ -25,7 +25,7 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetBook(Guid id)
         {
             var book = await _booksService.GetBookByIdAsync(id);
@@ -34,28 +34,27 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpPost("addBook")]
-        //[Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PostBook([FromBody] BookViewModel book)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            await _booksService.AddBookAsync(book);
-            return CreatedAtAction(nameof(GetBook), new {id = book.Id}, book);
+            var entity = await _booksService.AddBookAsync(book);
+            return CreatedAtAction(nameof(GetBook), new { id = entity.Id}, book);
         }
 
         [HttpPut("updateBook/{id}")]
-        //[Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PutBook(Guid id, [FromBody] BookViewModel book)
         {
-            if (id != book.Id) return BadRequest();
             if (!ModelState.IsValid) return BadRequest(ModelState);
             
-            await _booksService.UpdateBookAsync(book);
+            await _booksService.UpdateBookAsync(id, book);
             return NoContent();
         }
 
         [HttpDelete("deleteBook/{id}")]
-        //[Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteBook(Guid id)
         {
             await _booksService.DeleteBookAsync(id);
