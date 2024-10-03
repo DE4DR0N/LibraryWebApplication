@@ -56,41 +56,41 @@ const App = () => {
             <Route
               path="/books"
               element={
-                <PrivateRoute>
+                // <PrivateRoute>
                   <BookList />
-                </PrivateRoute>
+                // </PrivateRoute>
               }
             />
             <Route
               path="/books/add"
               element={
-                <AdminRoute>
+                // <AdminRoute>
                   <AddEditBookPage />
-                </AdminRoute>
+                // </AdminRoute>
               }
             />
             <Route
               path="/books/updateBook/:id"
               element={
-                <AdminRoute>
+                // <AdminRoute>
                   <AddEditBookPage />
-                </AdminRoute>
+                // </AdminRoute>
               }
             />
             <Route
               path="/books/:id"
               element={
-                <PrivateRoute>
+                // <PrivateRoute>
                   <BookDetailsPage isAdmin={isAdmin} />
-                </PrivateRoute>
+                // </PrivateRoute>
               }
             />
             <Route
               path="/user/:id"
               element={
-                <PrivateRoute>
+                // <PrivateRoute>
                   <UserProfilePage />
-                </PrivateRoute>
+                // </PrivateRoute>
               }
             />
             <Route path="*" element={<Navigate to="/books" />} />
