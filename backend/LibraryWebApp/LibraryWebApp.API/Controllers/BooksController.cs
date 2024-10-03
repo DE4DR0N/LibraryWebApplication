@@ -24,7 +24,7 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpGet("{id}")]
-        //[Authorize]
+        [Authorize]
         public async Task<IActionResult> GetBook(Guid id)
         {
             var book = await _booksService.GetBookByIdAsync(id);
@@ -33,7 +33,7 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpPost("addBook")]
-        //[Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PostBook([FromBody] BookViewModel book)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -43,7 +43,7 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpPut("updateBook/{id}")]
-        //[Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PutBook(Guid id, [FromBody] BookViewModel book)
         {
             if (id != book.Id) return BadRequest();
@@ -54,7 +54,7 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpDelete("deleteBook/{id}")]
-        //[Authorize(Policy = "AdminOnly")]
+        [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteBook(Guid id)
         {
             await _booksService.DeleteBookAsync(id);
