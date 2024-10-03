@@ -15,13 +15,9 @@ namespace LibraryWebApp.Persistence.Repositories
         {
             return await _context.Books.Include(b => b.Author).AsNoTracking().FirstOrDefaultAsync(a => a.ISBN == isbn);
         }
-        public async Task<IEnumerable<BookEntity>> GetBooksByAuthorAsync(Guid authorId)
-        {
-            return await _context.Books.Where(b => b.AuthorId == authorId).AsNoTracking().ToListAsync();
-        }
         public async Task<IEnumerable<BookEntity>> GetBooksByUserAsync(Guid userId)
         {
-            return await _context.Books.Where(b => b.UserId == userId).AsNoTracking().ToListAsync();
+            return await _context.Books.Where(b => b.User.Id == userId).AsNoTracking().ToListAsync();
         }
         public async Task<IEnumerable<BookEntity>> GetAllAsync()
         {
@@ -31,6 +27,11 @@ namespace LibraryWebApp.Persistence.Repositories
         {
             return await _context.Books.Include(b => b.Author).AsNoTracking().FirstOrDefaultAsync(b => b.Id == id);
         }
+        public async Task<IEnumerable<BookEntity>> GetBooksByAuthorAsync(Guid authorId)
+        {
+            return await _context.Books.Where(b => b.Author.Id == authorId).AsNoTracking().ToListAsync();
+        }
+
         public async Task AddAsync(BookEntity book)
         {
             await _context.Books.AddAsync(book);
@@ -51,7 +52,7 @@ namespace LibraryWebApp.Persistence.Repositories
             {
                 book.BorrowDate= null;
                 book.ReturnDate = null;
-                book.UserId = null;
+                book.User = null;
                 _context.Entry(book).State = EntityState.Modified;
             }
         }
@@ -60,7 +61,7 @@ namespace LibraryWebApp.Persistence.Repositories
             var book = await _context.Books.FindAsync(bookId);
             if (book != null)
             {
-                book.UserId = userId;
+                book.User.Id = userId;
                 book.BorrowDate = borrowDate;
                 book.ReturnDate = returnDate;
                 _context.Entry(book).State = EntityState.Modified;
