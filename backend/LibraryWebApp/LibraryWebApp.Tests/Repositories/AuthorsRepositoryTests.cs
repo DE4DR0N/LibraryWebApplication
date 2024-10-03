@@ -33,7 +33,8 @@ namespace LibraryWebApp.Tests.Repositories
         public async Task AddAsync()
         {
             // Arrange
-            var newAuthor = new AuthorEntity { Id = Guid.NewGuid(), FirstName = "Test", LastName = "Test" };
+            var newAuthor = new AuthorEntity 
+            { Id = Guid.NewGuid(), FirstName = "Test", LastName = "Test", BirthDate = DateOnly.MinValue, Country = "Country" };
 
             // Act
             await _repository.AddAsync(newAuthor);

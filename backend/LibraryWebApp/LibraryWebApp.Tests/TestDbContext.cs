@@ -19,7 +19,8 @@ namespace LibraryWebApp.Tests
                 Id = Guid.NewGuid(),
                 FirstName = "AuthorName",
                 LastName = "AuthorSurname",
-                BirthDate = new DateOnly(2000, 01, 01)
+                BirthDate = new DateOnly(2000, 01, 01),
+                Country = "Country"
             };
             var book = new BookEntity
             {
