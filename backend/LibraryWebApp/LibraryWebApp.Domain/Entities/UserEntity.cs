@@ -2,7 +2,7 @@
 {
     public class UserEntity
     {
-        public Guid Id { get; set; }
+        public Guid Id { get; set; } = Guid.NewGuid();
         public required string UserName { get; set; }
         public required string PasswordHash { get; set; }
         public string? RefreshToken { get; set; }
