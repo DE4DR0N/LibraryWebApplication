@@ -19,6 +19,7 @@ namespace LibraryWebApp.Persistence
             {
                 entity.HasKey(b => b.Id);
                 entity.Property(b => b.ISBN).IsRequired();
+                entity.HasIndex(b => b.ISBN).IsUnique();
                 entity.Property(b => b.Title).IsRequired().HasMaxLength(200);
                 entity.Property(b => b.Genre).IsRequired().HasMaxLength(100);
                 entity.Property(b => b.Description).HasMaxLength(1000);

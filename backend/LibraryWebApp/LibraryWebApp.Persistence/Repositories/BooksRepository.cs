@@ -52,7 +52,7 @@ namespace LibraryWebApp.Persistence.Repositories
             {
                 book.BorrowDate= null;
                 book.ReturnDate = null;
-                book.User = null;
+                book.UserId = null;
                 _context.Entry(book).State = EntityState.Modified;
             }
         }
@@ -61,7 +61,7 @@ namespace LibraryWebApp.Persistence.Repositories
             var book = await _context.Books.FindAsync(bookId);
             if (book != null)
             {
-                book.User.Id = userId;
+                book.UserId = userId;
                 book.BorrowDate = borrowDate;
                 book.ReturnDate = returnDate;
                 _context.Entry(book).State = EntityState.Modified;
