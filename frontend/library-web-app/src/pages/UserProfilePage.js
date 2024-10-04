@@ -5,7 +5,6 @@ const UserProfilePage = () => {
   return (
     <Container>
       <Typography variant="h4">User Profile</Typography>
-      {/* Add user details here */}
     </Container>
   );
 };
