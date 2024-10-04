@@ -4,7 +4,7 @@ Library Web Application is a modern web application developed using ASP.Net Core
 
 ## Features
 
-- Authentication and Authorization: Utilizes JWT tokens to ensure security and manage user access.
+- Authentication and Authorization: Utilizes JWT tokens using Cookies to ensure security and manage user access.
 - CRUD Operations: Allows creation, reading, updating, and deletion of book and author records.
 - Client-Side Integration: Implements the client-side using React to provide an interactive and responsive user interface.
 - Clean Architecture: Easy to update and add new functions.
