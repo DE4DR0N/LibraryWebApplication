@@ -51,14 +51,13 @@ builder.Services.AddAuthentication(options =>
 });
 #endregion
 
-// Configure policy-based authorization
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("AdminOnly", policy => policy.RequireRole("Admin"));
     options.AddPolicy("UserOnly", policy => policy.RequireRole("User"));
 });
 
-#region Services
+#region Interfaces
 builder.Services.AddScoped<IAuthorsService, AuthorsService>();
 builder.Services.AddScoped<IBooksService, BooksService>();
 builder.Services.AddScoped<IUsersService, UsersService>();
