@@ -5,7 +5,7 @@ namespace LibraryWebApp.Application.Interfaces
 {
     public interface IBooksService
     {
-        Task<BookResponseViewModel> AddBookAsync(BookViewModel bookDto);
+        Task<BookResponseViewModel> AddBookAsync(BookViewModel bookDto, string image);
         Task DeleteBookAsync(Guid id);
         Task<IEnumerable<BookResponseViewModel>> GetAllBooksAsync(PaginationViewModel paginationParams);
         Task<BookResponseViewModel> GetBookByIdAsync(Guid id);

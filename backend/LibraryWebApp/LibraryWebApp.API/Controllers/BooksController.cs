@@ -11,10 +11,13 @@ namespace LibraryWebApp.API.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBooksService _booksService;
+        private readonly IImageService _imageService;
+        private readonly string _imagePath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", "Images");
 
-        public BooksController(IBooksService booksService)
+        public BooksController(IBooksService booksService, IImageService imageService)
         {
             _booksService = booksService;
+            _imageService = imageService;
         }
 
         [HttpGet]
@@ -39,7 +42,8 @@ namespace LibraryWebApp.API.Controllers
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var entity = await _booksService.AddBookAsync(book);
+            var image = await _imageService.CreateImageAsync(book.Image, _imagePath);
+            var entity = await _booksService.AddBookAsync(book, image);
             return CreatedAtAction(nameof(GetBook), new { id = entity.Id}, book);
         }
 
