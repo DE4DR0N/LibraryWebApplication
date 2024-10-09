@@ -43,7 +43,7 @@ namespace LibraryWebApp.API.Controllers
                 if (result.IsLoggedIn)
                 {
                     HttpContext.Response.Cookies.Append("tasty-cookies", result.AccessToken, new CookieOptions { HttpOnly = true });
-                    return Ok(new { Message = "Logination successful" });
+                    return Ok(new { Message = $"{result.AccessToken}" });
                 }
 
                 return Unauthorized(new { Message = "Invalid login attempt" });
