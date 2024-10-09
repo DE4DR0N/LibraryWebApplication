@@ -33,6 +33,9 @@ namespace LibraryWebApp.API.Controllers
         {
             var book = await _booksService.GetBookByIdAsync(id);
             if (book == null) return NotFound();
+
+            var imageKey = _imageService.GetImageAsync(book.Image, _imagePath);
+            book.Image = Url.Content($"~/images/{imageKey}");
             return Ok(book);
         }
 
