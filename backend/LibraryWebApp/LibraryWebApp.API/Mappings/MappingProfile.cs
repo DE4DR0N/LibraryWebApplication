@@ -11,7 +11,9 @@ namespace LibraryWebApp.API.Mappings
         public MappingProfile()
         {
             CreateMap<BookEntity, BookResponseViewModel>().ReverseMap();
-            CreateMap<BookEntity, BookViewModel>().ReverseMap();
+            CreateMap<BookEntity, BookViewModel>()
+                .ForMember(dest => dest.Image, opt => opt.Ignore())
+                .ReverseMap();
             CreateMap<AuthorEntity, AuthorResponseViewModel>().ReverseMap();
             CreateMap<AuthorEntity, AuthorViewModel>().ReverseMap();
             CreateMap<UserEntity, UserViewModel>().ReverseMap();

@@ -11,10 +11,13 @@ namespace LibraryWebApp.API.Controllers
     public class BooksController : ControllerBase
     {
         private readonly IBooksService _booksService;
+        private readonly IImageService _imageService;
+        private readonly string _imagePath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", "Images");
 
-        public BooksController(IBooksService booksService)
+        public BooksController(IBooksService booksService, IImageService imageService)
         {
             _booksService = booksService;
+            _imageService = imageService;
         }
 
         [HttpGet]
@@ -30,16 +33,20 @@ namespace LibraryWebApp.API.Controllers
         {
             var book = await _booksService.GetBookByIdAsync(id);
             if (book == null) return NotFound();
+
+            var imageKey = _imageService.GetImageAsync(book.Image, _imagePath);
+            book.Image = Url.Content($"~/images/{imageKey}");
             return Ok(book);
         }
 
         [HttpPost("addBook")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> PostBook([FromBody] BookViewModel book)
+        public async Task<IActionResult> PostBook([FromForm] BookViewModel book)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var entity = await _booksService.AddBookAsync(book);
+            var image = await _imageService.CreateImageAsync(book.Image, _imagePath);
+            var entity = await _booksService.AddBookAsync(book, image);
             return CreatedAtAction(nameof(GetBook), new { id = entity.Id}, book);
         }
 

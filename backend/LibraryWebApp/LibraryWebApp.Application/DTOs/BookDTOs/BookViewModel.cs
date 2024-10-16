@@ -1,4 +1,6 @@
-﻿namespace LibraryWebApp.Application.DTOs.BookDTOs
+﻿using Microsoft.AspNetCore.Http;
+
+namespace LibraryWebApp.Application.DTOs.BookDTOs
 {
     public class BookViewModel
     {
@@ -7,5 +9,6 @@
         public required string Genre { get; set; }
         public required string Description { get; set; }
         public required Guid AuthorId { get; set; }
+        public IFormFile Image { get; set; }
     }
 }

@@ -28,4 +28,8 @@
     <ProjectReference Include="..\LibraryWebApp.Persistence\LibraryWebApp.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="StaticFiles\Images\" />
+  </ItemGroup>
+
 </Project>

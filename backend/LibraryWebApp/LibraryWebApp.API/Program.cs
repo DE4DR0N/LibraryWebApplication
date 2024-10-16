@@ -64,6 +64,7 @@ builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IImageService, ImageService>();
 #endregion
 
 builder.Services.AddCors(options =>
@@ -76,6 +77,8 @@ builder.Services.AddCors(options =>
         policy.AllowCredentials();
     });
 });
+
+builder.Services.AddMemoryCache();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -127,6 +130,7 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseCors();
+app.UseStaticFiles();
 
 using (var scope = app.Services.CreateScope())
 {

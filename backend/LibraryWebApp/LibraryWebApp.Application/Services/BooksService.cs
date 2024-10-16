@@ -37,9 +37,10 @@ namespace LibraryWebApp.Application.Services
             return _mapper.Map<BookResponseViewModel>(book);
         }
 
-        public async Task<BookResponseViewModel> AddBookAsync(BookViewModel bookDto)
+        public async Task<BookResponseViewModel> AddBookAsync(BookViewModel bookDto, string image)
         {
             var book = _mapper.Map<BookEntity>(bookDto);
+            book.Image = image;
             await _unitOfWork.Books.AddAsync(book);
             await _unitOfWork.CompleteAsync();
             return _mapper.Map<BookResponseViewModel>(book);

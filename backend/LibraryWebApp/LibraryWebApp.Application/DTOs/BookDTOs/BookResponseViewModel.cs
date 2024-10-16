@@ -13,5 +13,6 @@ namespace LibraryWebApp.Application.DTOs.BookDTOs
         public Guid? UserId { get; set; }
         public DateOnly? BorrowDate { get; set; }
         public DateOnly? ReturnDate { get; set; }
+        public string? Image { get; set; }
     }
 }
