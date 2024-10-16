@@ -41,7 +41,7 @@ namespace LibraryWebApp.API.Controllers
 
         [HttpPost("addBook")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> PostBook([FromBody] BookViewModel book)
+        public async Task<IActionResult> PostBook([FromForm] BookViewModel book)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
