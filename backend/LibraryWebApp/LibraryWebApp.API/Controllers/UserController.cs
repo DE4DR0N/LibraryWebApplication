@@ -1,6 +1,6 @@
-﻿using LibraryWebApp.Application.Interfaces;
+﻿using LibraryWebApp.Application.Interfaces.Books;
+using LibraryWebApp.Application.Interfaces.Users;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.API.Controllers
@@ -10,25 +10,25 @@ namespace LibraryWebApp.API.Controllers
     [Authorize]
     public class UserController : ControllerBase
     {
-        private readonly IBooksService _booksService;
-        private readonly IUsersService _usersService;
-        public UserController(IBooksService booksService, IUsersService usersService)
+        private readonly IGetBooksByUserUseCase getBooksByUser;
+        private readonly IGetUserByUsernameUseCase getUserByUsername;
+        public UserController(IGetBooksByUserUseCase getBooksByUserUseCase, IGetUserByUsernameUseCase getUserByUsernameUseCase)
         {
-            _booksService = booksService;
-            _usersService = usersService;
+            getUserByUsername = getUserByUsernameUseCase;
+            getBooksByUser = getBooksByUserUseCase;
         }
 
         [HttpGet("{userId}/books")]
         public async Task<IActionResult> GetBorrowedBooks(Guid userId)
         {
-            var books = await _booksService.GetBooksByUserAsync(userId);
+            var books = await getBooksByUser.ExecuteAsync(userId);
             if (books == null) return NotFound();
             return Ok(books);
         }
         [HttpGet("{username}")]
         public async Task<IActionResult> GerUserByUserName(string username)
         {
-            var user = await _usersService.GetUserByUsernameAsync(username);
+            var user = await getUserByUsername.ExecuteAsync(username);
             if (user == null) return NotFound();
             return Ok(user);
         }

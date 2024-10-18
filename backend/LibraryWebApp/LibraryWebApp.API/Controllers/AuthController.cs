@@ -1,5 +1,6 @@
 ﻿using LibraryWebApp.Application.DTOs.AuthDTOs;
-using LibraryWebApp.Application.Interfaces;
+using LibraryWebApp.Application.Interfaces.SignIn;
+using LibraryWebApp.Application.Interfaces.SignUp;
 using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.API.Controllers
@@ -8,11 +9,15 @@ namespace LibraryWebApp.API.Controllers
     [Route("[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly IAuthService _authService;
+        private readonly IRegisterUseCase _register;
+        private readonly ILoginUseCase _login;
+        private readonly IRefreshTokenUseCase _refreshToken;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IRegisterUseCase registerUseCase, ILoginUseCase loginUseCase, IRefreshTokenUseCase refreshTokenUseCase)
         {
-            _authService = authService;
+            _register = registerUseCase;
+            _login = loginUseCase;
+            _refreshToken = refreshTokenUseCase;
         }
 
         [HttpPost("register")]
@@ -20,7 +25,7 @@ namespace LibraryWebApp.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _authService.RegisterAsync(model);
+                var result = await _register.ExecuteAsync(model);
 
                 if (result)
                 {
@@ -38,12 +43,12 @@ namespace LibraryWebApp.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _authService.LoginAsync(model);
+                var result = await _login.ExecuteAsync(model);
 
                 if (result.IsLoggedIn)
                 {
                     HttpContext.Response.Cookies.Append("tasty-cookies", result.AccessToken, new CookieOptions { HttpOnly = true });
-                    return Ok(new { Message = $"{result.AccessToken}" });
+                    return Ok(new { AccessToken = $"{result.AccessToken}" });
                 }
 
                 return Unauthorized(new { Message = "Invalid login attempt" });
@@ -54,7 +59,7 @@ namespace LibraryWebApp.API.Controllers
         [HttpPost("refreshToken")]
         public async Task<IActionResult> RefreshToken(RefreshTokenViewModel model)
         {
-            var loginResult = await _authService.RefreshTokenAsync(model);
+            var loginResult = await _refreshToken.ExecuteAsync(model);
             if (loginResult.IsLoggedIn) return Ok(loginResult);
             return Unauthorized();
         }

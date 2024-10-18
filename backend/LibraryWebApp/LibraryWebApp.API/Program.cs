@@ -9,6 +9,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
+using LibraryWebApp.Application.Interfaces.Authors;
+using LibraryWebApp.Application.UseCases.Authors;
+using LibraryWebApp.Application.Interfaces.Books;
+using LibraryWebApp.Application.UseCases.Books;
+using LibraryWebApp.Application.Interfaces.Images;
+using LibraryWebApp.Application.UseCases.Images;
+using LibraryWebApp.Application.Interfaces.SignIn;
+using LibraryWebApp.Application.UseCases.SignIn;
+using LibraryWebApp.Application.Interfaces.SignUp;
+using LibraryWebApp.Application.UseCases.SignUp;
+using LibraryWebApp.Application.Interfaces.Tokens;
+using LibraryWebApp.Application.UseCases.Tokens;
+using LibraryWebApp.Application.Interfaces.Users;
+using LibraryWebApp.Application.UseCases.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 #region DataAccess
@@ -58,13 +72,41 @@ builder.Services.AddAuthorization(options =>
 });
 
 #region Interfaces
-builder.Services.AddScoped<IAuthorsService, AuthorsService>();
-builder.Services.AddScoped<IBooksService, BooksService>();
-builder.Services.AddScoped<IUsersService, UsersService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IImageService, ImageService>();
+//builder.Services.AddScoped<IAuthorsService, AuthorsService>();
+//builder.Services.AddScoped<IBooksService, BooksService>();
+//builder.Services.AddScoped<IUsersService, UsersService>();
+//builder.Services.AddScoped<IAuthService, AuthService>();
+//builder.Services.AddScoped<ITokenService, TokenService>();
+//builder.Services.AddScoped<IImageService, ImageService>();
+
+builder.Services.AddScoped<IGetAllAuthorsUseCase, GetAllAuthorsUseCase>();
+builder.Services.AddScoped<IGetAuthorByIdUseCase, GetAuthorByIdUseCase>();
+builder.Services.AddScoped<IAddAuthorUseCase, AddAuthorUseCase>();
+builder.Services.AddScoped<IUpdateAuthorUseCase, UpdateAuthorUseCase>();
+builder.Services.AddScoped<IDeleteAuthorUseCase, DeleteAuthorUseCase>();
+
+builder.Services.AddScoped<IAddBookUseCase, AddBookUseCase>();
+builder.Services.AddScoped<IDeleteBookUseCase, DeleteBookUseCase>();
+builder.Services.AddScoped<IGetAllBooksUseCase, GetAllBooksUseCase>();
+builder.Services.AddScoped<IGetBookByIdUseCase, GetBookByIdUseCase>();
+builder.Services.AddScoped<IGetBooksByUserUseCase, GetBooksByUserUseCase>();
+builder.Services.AddScoped<IUpdateBookUseCase, UpdateBookUseCase>();
+builder.Services.AddScoped<IIssueBookUseCase, IssueBookUseCase>();
+builder.Services.AddScoped<IReturnBookUseCase, ReturnBookUseCase>();
+
+builder.Services.AddScoped<ICreateImageUseCase, CreateImageUseCase>();
+builder.Services.AddScoped<IGetImageUseCase, GetImageUseCase>();
+
+builder.Services.AddScoped<ILoginUseCase, LoginUseCase>();
+builder.Services.AddScoped<IRefreshTokenUseCase, RefreshTokenUseCase>();
+
+builder.Services.AddScoped<IRegisterUseCase, RegisterUseCase>();
+
+builder.Services.AddScoped<IGenerateAccessTokenUseCase, GenerateAccessTokenUseCase>();
+builder.Services.AddScoped<IGenerateRefreshTokenUseCase, GenerateRefreshTokenUseCase>();
+
+builder.Services.AddScoped<IGetUserByUsernameUseCase, GetUserByUsernameUseCase>();
 #endregion
 
 builder.Services.AddCors(options =>
