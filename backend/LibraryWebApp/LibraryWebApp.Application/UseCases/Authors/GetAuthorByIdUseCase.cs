@@ -2,6 +2,7 @@
 using LibraryWebApp.Application.DTOs.AuthorDTOs;
 using LibraryWebApp.Application.Interfaces.Authors;
 using LibraryWebApp.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.UseCases.Authors
 {
@@ -14,10 +15,10 @@ namespace LibraryWebApp.Application.UseCases.Authors
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-        public async Task<AuthorResponseViewModel> ExecuteAsync(Guid id)
+        public async Task<IActionResult> ExecuteAsync(Guid id)
         {
             var author = await _unitOfWork.Authors.GetByIdAsync(id);
-            return _mapper.Map<AuthorResponseViewModel>(author);
+            return new OkObjectResult(_mapper.Map<AuthorResponseViewModel>(author));
         }
     }
 }

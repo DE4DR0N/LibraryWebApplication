@@ -2,6 +2,7 @@
 using LibraryWebApp.Application.DTOs.UserDTOs;
 using LibraryWebApp.Application.Interfaces.Users;
 using LibraryWebApp.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.UseCases.Users
 {
@@ -14,10 +15,11 @@ namespace LibraryWebApp.Application.UseCases.Users
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<UserViewModel> ExecuteAsync(string userName)
+        public async Task<IActionResult> ExecuteAsync(string userName)
         {
             var user = await _unitOfWork.Users.GetByUsernameAsync(userName);
-            return _mapper.Map<UserViewModel>(user);
+            if (user == null) return new NotFoundObjectResult("User not found");
+            return new OkObjectResult(_mapper.Map<UserViewModel>(user));
         }
     }
 }

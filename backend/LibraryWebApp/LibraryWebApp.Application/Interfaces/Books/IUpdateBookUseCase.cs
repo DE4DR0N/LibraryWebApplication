@@ -1,9 +1,10 @@
 ﻿using LibraryWebApp.Application.DTOs.BookDTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.Interfaces.Books
 {
     public interface IUpdateBookUseCase
     {
-        Task ExecuteAsync(Guid id, BookViewModel bookDto);
+        Task<IActionResult> ExecuteAsync(Guid id, BookViewModel bookDto);
     }
 }

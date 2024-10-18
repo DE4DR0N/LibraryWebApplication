@@ -1,9 +1,9 @@
-﻿using LibraryWebApp.Application.DTOs.BookDTOs;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.Interfaces.Books
 {
     public interface IGetBookByIdUseCase
     {
-        Task<BookResponseViewModel> ExecuteAsync(Guid id);
+        Task<IActionResult> ExecuteAsync(Guid id, string imagePath, IUrlHelper urlHelper);
     }
 }

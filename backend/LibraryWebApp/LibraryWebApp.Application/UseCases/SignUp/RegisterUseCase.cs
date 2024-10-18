@@ -2,6 +2,7 @@
 using LibraryWebApp.Application.Interfaces.SignUp;
 using LibraryWebApp.Domain.Entities;
 using LibraryWebApp.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.UseCases.SignUp
 {
@@ -12,13 +13,10 @@ namespace LibraryWebApp.Application.UseCases.SignUp
         {
             _unitOfWork = unitOfWork;
         }
-        public async Task<bool> ExecuteAsync(RegisterViewModel model)
+        public async Task<IActionResult> ExecuteAsync(RegisterViewModel model)
         {
             var user = await _unitOfWork.Users.GetByUsernameAsync(model.Username);
-            if (user != null)
-            {
-                return false;
-            }
+            if (user != null) new BadRequestObjectResult("User is already exist");
             var newUser = new UserEntity
             {
                 Id = Guid.NewGuid(),
@@ -29,7 +27,7 @@ namespace LibraryWebApp.Application.UseCases.SignUp
 
             await _unitOfWork.Users.AddAsync(newUser);
             await _unitOfWork.CompleteAsync();
-            return true;
+            return new OkObjectResult("Registration successful");
         }
     }
 }

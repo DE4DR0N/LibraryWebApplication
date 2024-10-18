@@ -4,6 +4,7 @@ using LibraryWebApp.Application.DTOs.BookDTOs;
 using LibraryWebApp.Application.Extensions;
 using LibraryWebApp.Application.Interfaces.Books;
 using LibraryWebApp.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.UseCases.Books
 {
@@ -16,11 +17,11 @@ namespace LibraryWebApp.Application.UseCases.Books
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<BookResponseViewModel>> ExecuteAsync(PaginationViewModel model)
+        public async Task<IActionResult> ExecuteAsync(PaginationViewModel model)
         {
             var books = await _unitOfWork.Books.GetAllAsync();
             var pagedBooks = books.AsQueryable().ApplyPagination(model);
-            return _mapper.Map<IEnumerable<BookResponseViewModel>>(pagedBooks);
+            return new OkObjectResult(_mapper.Map<IEnumerable<BookResponseViewModel>>(pagedBooks));
         }
     }
 }

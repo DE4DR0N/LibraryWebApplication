@@ -1,9 +1,10 @@
 ﻿using LibraryWebApp.Application.DTOs.AuthDTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.Interfaces.SignUp
 {
     public interface IRegisterUseCase
     {
-        Task<bool> ExecuteAsync(RegisterViewModel model);
+        Task<IActionResult> ExecuteAsync(RegisterViewModel model);
     }
 }

@@ -1,10 +1,10 @@
-﻿using LibraryWebApp.Application.DTOs.BookDTOs;
-using LibraryWebApp.Application.DTOs;
+﻿using LibraryWebApp.Application.DTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.Interfaces.Books
 {
     public interface IGetAllBooksUseCase
     {
-        Task<IEnumerable<BookResponseViewModel>> ExecuteAsync(PaginationViewModel model);
+        Task<IActionResult> ExecuteAsync(PaginationViewModel model);
     }
 }

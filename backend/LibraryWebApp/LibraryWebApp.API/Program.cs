@@ -21,6 +21,9 @@ using LibraryWebApp.Application.Interfaces.Tokens;
 using LibraryWebApp.Application.UseCases.Tokens;
 using LibraryWebApp.Application.Interfaces.Users;
 using LibraryWebApp.Application.UseCases.Users;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Routing;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 #region DataAccess
@@ -99,6 +102,13 @@ builder.Services.AddScoped<IGenerateAccessTokenUseCase, GenerateAccessTokenUseCa
 builder.Services.AddScoped<IGenerateRefreshTokenUseCase, GenerateRefreshTokenUseCase>();
 
 builder.Services.AddScoped<IGetUserByUsernameUseCase, GetUserByUsernameUseCase>();
+
+builder.Services.AddSingleton<IUrlHelper>(sp =>
+{
+    var actionContext = sp.GetService<IActionContextAccessor>().ActionContext;
+    return new UrlHelper(actionContext);
+});
+
 #endregion
 
 builder.Services.AddCors(options =>

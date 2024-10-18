@@ -3,6 +3,7 @@ using LibraryWebApp.Application.DTOs.AuthorDTOs;
 using LibraryWebApp.Application.Interfaces.Authors;
 using LibraryWebApp.Domain.Entities;
 using LibraryWebApp.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.UseCases.Authors
 {

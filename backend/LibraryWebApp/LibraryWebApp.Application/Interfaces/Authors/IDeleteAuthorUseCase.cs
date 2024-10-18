@@ -1,7 +1,9 @@
-﻿namespace LibraryWebApp.Application.Interfaces.Authors
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace LibraryWebApp.Application.Interfaces.Authors
 {
     public interface IDeleteAuthorUseCase
     {
-        Task ExecuteAsync(Guid id);
+        Task<IActionResult> ExecuteAsync(Guid id);
     }
 }

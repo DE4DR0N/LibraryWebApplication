@@ -1,9 +1,9 @@
-﻿using LibraryWebApp.Application.DTOs.UserDTOs;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.Interfaces.Users
 {
     public interface IGetUserByUsernameUseCase
     {
-        Task<UserViewModel> ExecuteAsync(string userName);
+        Task<IActionResult> ExecuteAsync(string userName);
     }
 }

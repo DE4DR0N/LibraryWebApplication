@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using LibraryWebApp.Application.Interfaces.Authors;
 using LibraryWebApp.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.UseCases.Authors
 {
@@ -13,10 +14,13 @@ namespace LibraryWebApp.Application.UseCases.Authors
             _mapper = mapper;
             _unitOfWork = unitOfWork;
         }
-        public async Task ExecuteAsync(Guid id)
+        public async Task<IActionResult> ExecuteAsync(Guid id)
         {
-            await _unitOfWork.Authors.DeleteAsync(id);
+            var author = await _unitOfWork.Authors.GetByIdAsync(id);
+            if (author == null) return new NotFoundObjectResult("Author not found");
+            _unitOfWork.Authors.Delete(author);
             await _unitOfWork.CompleteAsync();
+            return new NoContentResult();
         }
     }
 }

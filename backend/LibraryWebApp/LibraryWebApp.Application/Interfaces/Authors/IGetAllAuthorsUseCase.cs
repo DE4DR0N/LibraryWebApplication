@@ -1,9 +1,9 @@
-﻿using LibraryWebApp.Application.DTOs.AuthorDTOs;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.Interfaces.Authors
 {
     public interface IGetAllAuthorsUseCase
     {
-        Task<IEnumerable<AuthorResponseViewModel>> ExecuteAsync();
+        Task<IActionResult> ExecuteAsync();
     }
 }

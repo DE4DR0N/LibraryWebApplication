@@ -2,6 +2,7 @@
 using LibraryWebApp.Application.DTOs.BookDTOs;
 using LibraryWebApp.Application.Interfaces.Books;
 using LibraryWebApp.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.UseCases.Books
 {
@@ -14,10 +15,11 @@ namespace LibraryWebApp.Application.UseCases.Books
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IEnumerable<BookResponseViewModel>> ExecuteAsync(Guid userId)
+        public async Task<IActionResult> ExecuteAsync(Guid userId)
         {
             var books = await _unitOfWork.Books.GetBooksByUserAsync(userId);
-            return _mapper.Map<IEnumerable<BookResponseViewModel>>(books);
+            if (books == null) return new NotFoundObjectResult("No books are borrowed");
+            return new OkObjectResult(_mapper.Map<IEnumerable<BookResponseViewModel>>(books));
         }
     }
 }

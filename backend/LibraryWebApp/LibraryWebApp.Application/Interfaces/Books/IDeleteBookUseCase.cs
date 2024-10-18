@@ -1,7 +1,9 @@
-﻿namespace LibraryWebApp.Application.Interfaces.Books
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace LibraryWebApp.Application.Interfaces.Books
 {
     public interface IDeleteBookUseCase
     {
-        Task ExecuteAsync(Guid id);
+        Task<IActionResult> ExecuteAsync(Guid id);
     }
 }

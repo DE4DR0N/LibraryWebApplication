@@ -2,6 +2,7 @@
 using LibraryWebApp.Application.Interfaces.SignIn;
 using LibraryWebApp.Application.Interfaces.Tokens;
 using LibraryWebApp.Domain.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,15 +25,15 @@ namespace LibraryWebApp.Application.UseCases.SignIn
             _generateAccessTokenUseCase = generateAccessTokenUseCase;
             _generateRefreshTokenUseCase = generateRefreshTokenUseCase;
         }
-        public async Task<LoginResponseViewModel> ExecuteAsync(RefreshTokenViewModel model)
+        public async Task<IActionResult> ExecuteAsync(RefreshTokenViewModel model)
         {
             var principal = GetTokenPrincipals(model.JwtToken);
             var response = new LoginResponseViewModel();
-            if (principal?.Identity?.Name is null) return response;
+            if (principal?.Identity?.Name is null) return new UnauthorizedResult();
 
             var identityUser = await _unitOfWork.Users.GetByUsernameAsync(principal.Identity.Name);
             if (identityUser is null || identityUser.RefreshToken != model.RefreshToken || identityUser.RefreshTokenExpiry > DateTime.Now)
-                return response;
+                return new UnauthorizedResult();
             var claims = new List<Claim>
                 {
                     new Claim(ClaimTypes.Name, identityUser.UserName),
@@ -50,7 +51,7 @@ namespace LibraryWebApp.Application.UseCases.SignIn
             response.IsLoggedIn = true;
             response.AccessToken = accessToken;
             response.RefreshToken = refreshToken;
-            return response;
+            return new OkObjectResult(new { AccessToken = $"{response.AccessToken}", RefreshToken = $"{response.RefreshToken}" });
         }
         private ClaimsPrincipal? GetTokenPrincipals(string jwtAccess)
         {

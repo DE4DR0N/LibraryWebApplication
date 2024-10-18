@@ -26,49 +26,36 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAuthors()
+        public async Task<IActionResult> GetAuthors()
         {
-            var authors = await _getAllAuthors.ExecuteAsync();
-            return Ok(authors);
+            return await _getAllAuthors.ExecuteAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult> GetAuthor(Guid id)
+        public async Task<IActionResult> GetAuthor(Guid id)
         {
-            var author = await _getAuthorById.ExecuteAsync(id);
-            if (author == null)
-            {
-                return NotFound();
-            }
-            return Ok(author);
+            return await _getAuthorById.ExecuteAsync(id);
         }
 
         [HttpPost("addAuthor")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<ActionResult> PostAuthor([FromBody]AuthorViewModel authorDto)
+        public async Task<IActionResult> PostAuthor([FromBody]AuthorViewModel authorDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            var entity = await _addAuthor.ExecuteAsync(authorDto);
-            return CreatedAtAction(nameof(GetAuthor), new { id = entity.Id }, authorDto);
+            return CreatedAtAction(nameof(GetAuthor), await _addAuthor.ExecuteAsync(authorDto));
         }
 
         [HttpPut("updateAuthor/{id}")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PutAuthor(Guid id, [FromBody] AuthorViewModel authorDto)
         {
-            if (!ModelState.IsValid) return BadRequest(ModelState);
-
-            await _updateAuthor.ExecuteAsync(id, authorDto);
-            return NoContent();
+            return await _updateAuthor.ExecuteAsync(id, authorDto);
         }
 
         [HttpDelete("deleteAuthor/{id}")]
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteAuthor(Guid id)
         {
-            await _deleteAuthor.ExecuteAsync(id);
-            return NoContent();
+            return await _deleteAuthor.ExecuteAsync(id);
         }
     }
 }

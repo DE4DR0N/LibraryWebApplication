@@ -2,6 +2,8 @@
 using LibraryWebApp.Application.Interfaces.SignIn;
 using LibraryWebApp.Application.Interfaces.Tokens;
 using LibraryWebApp.Domain.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 
@@ -21,7 +23,7 @@ namespace LibraryWebApp.Application.UseCases.SignIn
             _generateAccessTokenUseCase = generateAccessTokenUseCase;
             _generateRefreshTokenUseCase = generateRefreshTokenUseCase;
         }
-        public async Task<LoginResponseViewModel> ExecuteAsync(LoginViewModel model)
+        public async Task<IActionResult> ExecuteAsync(LoginViewModel model, HttpContext httpContext)
         {
             var response = new LoginResponseViewModel();
             var user = await _unitOfWork.Users.GetByUsernameAsync(model.Username);
@@ -43,9 +45,10 @@ namespace LibraryWebApp.Application.UseCases.SignIn
                 response.IsLoggedIn = true;
                 response.AccessToken = accessToken;
                 response.RefreshToken = refreshToken;
-                return response;
+                httpContext.Response.Cookies.Append("tasty-cookies", response.AccessToken, new CookieOptions { HttpOnly = true });
+                return new OkObjectResult(new { IsLoggedIn = $"{response.IsLoggedIn}", AccessToken = $"{response.AccessToken}" });
             }
-            return response;
+            return new UnauthorizedObjectResult("Invalid login attempt");
         }
     }
 }

@@ -21,16 +21,12 @@ namespace LibraryWebApp.API.Controllers
         [HttpGet("{userId}/books")]
         public async Task<IActionResult> GetBorrowedBooks(Guid userId)
         {
-            var books = await getBooksByUser.ExecuteAsync(userId);
-            if (books == null) return NotFound();
-            return Ok(books);
+            return await getBooksByUser.ExecuteAsync(userId);
         }
         [HttpGet("{username}")]
         public async Task<IActionResult> GerUserByUserName(string username)
         {
-            var user = await getUserByUsername.ExecuteAsync(username);
-            if (user == null) return NotFound();
-            return Ok(user);
+            return await getUserByUsername.ExecuteAsync(username);
         }
     }
 }
