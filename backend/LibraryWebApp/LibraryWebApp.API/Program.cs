@@ -1,6 +1,4 @@
 using LibraryWebApp.API.Mappings;
-using LibraryWebApp.Application.Interfaces;
-using LibraryWebApp.Application.Services;
 using LibraryWebApp.Domain.Interfaces;
 using LibraryWebApp.Persistence;
 using LibraryWebApp.API.Middleware;
@@ -73,12 +71,6 @@ builder.Services.AddAuthorization(options =>
 
 #region Interfaces
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-//builder.Services.AddScoped<IAuthorsService, AuthorsService>();
-//builder.Services.AddScoped<IBooksService, BooksService>();
-//builder.Services.AddScoped<IUsersService, UsersService>();
-//builder.Services.AddScoped<IAuthService, AuthService>();
-//builder.Services.AddScoped<ITokenService, TokenService>();
-//builder.Services.AddScoped<IImageService, ImageService>();
 
 builder.Services.AddScoped<IGetAllAuthorsUseCase, GetAllAuthorsUseCase>();
 builder.Services.AddScoped<IGetAuthorByIdUseCase, GetAuthorByIdUseCase>();
