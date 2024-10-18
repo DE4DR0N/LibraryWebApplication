@@ -33,10 +33,9 @@ namespace LibraryWebApp.Persistence.Repositories
             _context.Update(author);
         }
 
-        public async Task DeleteAsync(Guid id)
+        public void Delete(AuthorEntity author)
         {
-            var author = await _context.Authors.FindAsync(id);
-            if (author != null) _context.Authors.Remove(author);
+            _context.Authors.Remove(author);
         }
 
         public async Task<AuthorEntity> GetAuthorByNameAsync(string firstname, string lastname)

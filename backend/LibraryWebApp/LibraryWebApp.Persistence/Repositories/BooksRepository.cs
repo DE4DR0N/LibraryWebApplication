@@ -40,10 +40,9 @@ namespace LibraryWebApp.Persistence.Repositories
         {
             _context.Books.Update(book);
         }
-        public async Task DeleteAsync(Guid id)
+        public void Delete(BookEntity book)
         {
-            var book = await _context.Books.FindAsync(id);
-            if (book != null) _context.Books.Remove(book);
+            _context.Books.Remove(book);
         }
         public async Task ReturnBookAsync(Guid bookId)
         {
