@@ -28,9 +28,9 @@ namespace LibraryWebApp.Persistence.Repositories
             await _context.Authors.AddAsync(author);
         }
 
-        public async Task UpdateAsync(AuthorEntity author)
+        public void Update(AuthorEntity author)
         {
-            _context.Entry(author).State = EntityState.Modified;
+            _context.Update(author);
         }
 
         public async Task DeleteAsync(Guid id)

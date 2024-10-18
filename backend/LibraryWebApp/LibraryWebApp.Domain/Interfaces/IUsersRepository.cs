@@ -7,6 +7,6 @@ namespace LibraryWebApp.Domain.Interfaces
         Task<UserEntity> GetByIdAsync(Guid id);
         Task<UserEntity> GetByUsernameAsync(string email);
         Task AddAsync(UserEntity user);
-        Task UpdateAsync(UserEntity user);
+        void Update(UserEntity user);
     }
 }

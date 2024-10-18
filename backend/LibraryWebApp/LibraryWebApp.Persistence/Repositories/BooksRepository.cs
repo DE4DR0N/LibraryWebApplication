@@ -36,9 +36,9 @@ namespace LibraryWebApp.Persistence.Repositories
         {
             await _context.Books.AddAsync(book);
         }
-        public async Task UpdateAsync(BookEntity book)
+        public void Update(BookEntity book)
         {
-            _context.Entry(book).State = EntityState.Modified;
+            _context.Books.Update(book);
         }
         public async Task DeleteAsync(Guid id)
         {

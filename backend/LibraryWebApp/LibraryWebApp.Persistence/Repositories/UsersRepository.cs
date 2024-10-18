@@ -26,9 +26,9 @@ namespace LibraryWebApp.Persistence.Repositories
             return await _context.Users.Include(b => b.Books).AsNoTracking().FirstOrDefaultAsync(b => b.UserName == username);
         }
 
-        public async Task UpdateAsync(UserEntity user)
+        public void Update(UserEntity user)
         {
-            _context.Entry(user).State = EntityState.Modified;
+            _context.Users.Update(user);
         }
     }
 }

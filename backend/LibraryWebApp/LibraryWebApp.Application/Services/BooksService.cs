@@ -50,7 +50,7 @@ namespace LibraryWebApp.Application.Services
         {
             var book = _mapper.Map<BookEntity>(bookDto);
             book.Id = id;
-            await _unitOfWork.Books.UpdateAsync(book);
+            _unitOfWork.Books.Update(book);
             await _unitOfWork.CompleteAsync();
         }
 

@@ -41,7 +41,7 @@ namespace LibraryWebApp.Application.Services
         {
             var updAuthor = _mapper.Map<AuthorEntity>(authorDto);
             updAuthor.Id = id;
-            await _unitOfWork.Authors.UpdateAsync(updAuthor);
+            _unitOfWork.Authors.Update(updAuthor);
             await _unitOfWork.CompleteAsync();
         }
 

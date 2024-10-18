@@ -38,7 +38,7 @@ namespace LibraryWebApp.Application.Services
                 var refreshToken = _tokenService.GenerateRefreshToken();
                 user.RefreshToken = refreshToken;
                 user.RefreshTokenExpiry = DateTime.Now.AddHours(double.Parse(_configuration["Jwt:RefreshTokenExpiration"]));
-                await _unitOfWork.Users.UpdateAsync(user);
+                _unitOfWork.Users.Update(user);
                 await _unitOfWork.CompleteAsync();
                 response.IsLoggedIn = true;
                 response.AccessToken = accessToken;
@@ -86,7 +86,7 @@ namespace LibraryWebApp.Application.Services
             var refreshToken = _tokenService.GenerateRefreshToken();
             identityUser.RefreshToken = refreshToken;
             identityUser.RefreshTokenExpiry = DateTime.Now.AddHours(double.Parse(_configuration["Jwt:RefreshTokenExpiration"]));
-            await _unitOfWork.Users.UpdateAsync(identityUser);
+            _unitOfWork.Users.Update(identityUser);
             await _unitOfWork.CompleteAsync();
 
             response.IsLoggedIn = true;
