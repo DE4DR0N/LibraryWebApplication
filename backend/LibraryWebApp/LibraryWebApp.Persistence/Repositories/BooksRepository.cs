@@ -44,27 +44,5 @@ namespace LibraryWebApp.Persistence.Repositories
         {
             _context.Books.Remove(book);
         }
-        public async Task ReturnBookAsync(Guid bookId)
-        {
-            var book = await _context.Books.FindAsync(bookId);
-            if (book != null)
-            {
-                book.BorrowDate= null;
-                book.ReturnDate = null;
-                book.UserId = null;
-                _context.Entry(book).State = EntityState.Modified;
-            }
-        }
-        public async Task IssueBookToUserAsync(Guid bookId, Guid userId, DateOnly borrowDate, DateOnly returnDate)
-        {
-            var book = await _context.Books.FindAsync(bookId);
-            if (book != null)
-            {
-                book.UserId = userId;
-                book.BorrowDate = borrowDate;
-                book.ReturnDate = returnDate;
-                _context.Entry(book).State = EntityState.Modified;
-            }
-        }
     }
 }
