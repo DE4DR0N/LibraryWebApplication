@@ -18,14 +18,12 @@ namespace LibraryWebApp.API.Controllers
         private readonly IDeleteBookUseCase _deleteBook;
         private readonly IIssueBookUseCase _issueBook;
         private readonly IReturnBookUseCase _returnBook;
-        private readonly IGetImageUseCase _getImage;
         private readonly ICreateImageUseCase _createImage;
         private readonly string _imagePath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", "Images");
 
         public BooksController(IGetAllBooksUseCase getAllBooksUseCase, IGetBookByIdUseCase getBookByIdUseCase, 
             IAddBookUseCase addBookUseCase, IUpdateBookUseCase updateBookUseCase, IDeleteBookUseCase deleteBookUseCase,
-            IIssueBookUseCase issueBookUseCase, IReturnBookUseCase returnBookUseCase, 
-            IGetImageUseCase getImageUseCase, ICreateImageUseCase createImageUseCase)
+            IIssueBookUseCase issueBookUseCase, IReturnBookUseCase returnBookUseCase, ICreateImageUseCase createImageUseCase)
         {
             _getAllBooks = getAllBooksUseCase;
             _getBookById = getBookByIdUseCase;
@@ -34,7 +32,6 @@ namespace LibraryWebApp.API.Controllers
             _deleteBook = deleteBookUseCase;
             _issueBook = issueBookUseCase;
             _returnBook = returnBookUseCase;
-            _getImage = getImageUseCase;
             _createImage = createImageUseCase;
         }
 
@@ -71,7 +68,7 @@ namespace LibraryWebApp.API.Controllers
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> DeleteBook(Guid id)
         {
-            return await _deleteBook.ExecuteAsync(id);
+            return await _deleteBook.ExecuteAsync(id, _imagePath);
         }
 
         [HttpPost("issue")]

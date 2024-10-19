@@ -4,6 +4,6 @@ namespace LibraryWebApp.Application.Interfaces.Books
 {
     public interface IDeleteBookUseCase
     {
-        Task<IActionResult> ExecuteAsync(Guid id);
+        Task<IActionResult> ExecuteAsync(Guid id, string imgPath);
     }
 }
