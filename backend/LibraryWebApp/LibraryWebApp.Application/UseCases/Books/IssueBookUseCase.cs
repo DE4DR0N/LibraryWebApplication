@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LibraryWebApp.Application.DTOs.BookDTOs;
 using LibraryWebApp.Application.Interfaces.Books;
 using LibraryWebApp.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +16,14 @@ namespace LibraryWebApp.Application.UseCases.Books
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> ExecuteAsync(Guid bookId, Guid userId, DateOnly returnDate)
+        public async Task<IActionResult> ExecuteAsync(IssueBookViewModel model)
         {
-            var book = await _unitOfWork.Books.GetByIdAsync(bookId);
+            var book = await _unitOfWork.Books.GetByIdAsync(model.BookId);
             if (book == null) return new NotFoundResult();
             if (book.UserId != null) return new BadRequestObjectResult("Book is already taken");
-            book.UserId = userId;
+            book.UserId = model.UserId;
             book.BorrowDate = DateOnly.FromDateTime(DateTime.Now);
-            book.ReturnDate = returnDate;
+            book.ReturnDate = model.ReturnDate;
             _unitOfWork.Books.Update(book);
             await _unitOfWork.CompleteAsync();
             return new OkObjectResult("Book issued");

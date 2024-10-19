@@ -20,13 +20,12 @@ namespace LibraryWebApp.API.Controllers
         private readonly IReturnBookUseCase _returnBook;
         private readonly IGetImageUseCase _getImage;
         private readonly ICreateImageUseCase _createImage;
-        private readonly IUrlHelper _urlHelper;
         private readonly string _imagePath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", "Images");
 
         public BooksController(IGetAllBooksUseCase getAllBooksUseCase, IGetBookByIdUseCase getBookByIdUseCase, 
             IAddBookUseCase addBookUseCase, IUpdateBookUseCase updateBookUseCase, IDeleteBookUseCase deleteBookUseCase,
             IIssueBookUseCase issueBookUseCase, IReturnBookUseCase returnBookUseCase, 
-            IGetImageUseCase getImageUseCase, ICreateImageUseCase createImageUseCase, IUrlHelper urlHelper)
+            IGetImageUseCase getImageUseCase, ICreateImageUseCase createImageUseCase)
         {
             _getAllBooks = getAllBooksUseCase;
             _getBookById = getBookByIdUseCase;
@@ -37,7 +36,6 @@ namespace LibraryWebApp.API.Controllers
             _returnBook = returnBookUseCase;
             _getImage = getImageUseCase;
             _createImage = createImageUseCase;
-            _urlHelper = urlHelper;
         }
 
         [HttpGet]
@@ -50,7 +48,7 @@ namespace LibraryWebApp.API.Controllers
         [Authorize]
         public async Task<IActionResult> GetBook(Guid id)
         {
-            return await _getBookById.ExecuteAsync(id, _imagePath, _urlHelper);
+            return await _getBookById.ExecuteAsync(id, _imagePath);
         }
 
         [HttpPost("addBook")]
@@ -80,7 +78,7 @@ namespace LibraryWebApp.API.Controllers
         [Authorize]
         public async Task<IActionResult> IssueBookToUser(IssueBookViewModel issueBookDto)
         {
-            return await _issueBook.ExecuteAsync(issueBookDto.BookId, issueBookDto.UserId, issueBookDto.ReturnDate);
+            return await _issueBook.ExecuteAsync(issueBookDto);
         }
 
         [HttpPost("return")]

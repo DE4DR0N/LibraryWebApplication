@@ -41,7 +41,8 @@ namespace LibraryWebApp.API.Controllers
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PostAuthor([FromBody]AuthorViewModel authorDto)
         {
-            return CreatedAtAction(nameof(GetAuthor), await _addAuthor.ExecuteAsync(authorDto));
+            var author = await _addAuthor.ExecuteAsync(authorDto);
+            return CreatedAtAction(nameof(GetAuthor), new { id = author.Id }, author);
         }
 
         [HttpPut("updateAuthor/{id}")]

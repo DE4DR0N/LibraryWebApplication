@@ -102,13 +102,6 @@ builder.Services.AddScoped<IGenerateAccessTokenUseCase, GenerateAccessTokenUseCa
 builder.Services.AddScoped<IGenerateRefreshTokenUseCase, GenerateRefreshTokenUseCase>();
 
 builder.Services.AddScoped<IGetUserByUsernameUseCase, GetUserByUsernameUseCase>();
-
-builder.Services.AddSingleton<IUrlHelper>(sp =>
-{
-    var actionContext = sp.GetService<IActionContextAccessor>().ActionContext;
-    return new UrlHelper(actionContext);
-});
-
 #endregion
 
 builder.Services.AddCors(options =>

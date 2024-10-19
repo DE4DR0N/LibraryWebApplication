@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using LibraryWebApp.Application.DTOs.BookDTOs;
+using Microsoft.AspNetCore.Mvc;
 
 namespace LibraryWebApp.Application.Interfaces.Books
 {
     public interface IIssueBookUseCase
     {
-        Task<IActionResult> ExecuteAsync(Guid bookId, Guid userId, DateOnly returnDate);
+        Task<IActionResult> ExecuteAsync(IssueBookViewModel viewModel);
     }
 }
