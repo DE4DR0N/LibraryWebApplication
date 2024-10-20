@@ -21,9 +21,6 @@ using LibraryWebApp.Application.Interfaces.Tokens;
 using LibraryWebApp.Application.UseCases.Tokens;
 using LibraryWebApp.Application.Interfaces.Users;
 using LibraryWebApp.Application.UseCases.Users;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Routing;
-using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 #region DataAccess
@@ -33,7 +30,7 @@ builder.Services.AddDbContext<LibraryWebAppDbContext>(
         options.UseSqlServer(builder.Configuration.GetConnectionString("LibraryWebAppDbContext"));
     });
 #endregion
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+builder.Services.AddAutoMapper(typeof(BookMappingProfile), typeof(AuthorMappingProfile), typeof(UserMappingProfile));
 
 #region JWT
 builder.Services.AddAuthentication(options =>
