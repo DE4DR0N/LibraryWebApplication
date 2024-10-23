@@ -18,8 +18,10 @@ namespace LibraryWebApp.Application.UseCases.Books
         public async Task<IActionResult> ExecuteAsync(Guid bookId)
         {
             var book = await _unitOfWork.Books.GetByIdAsync(bookId);
-            if (book == null) return new NotFoundResult();
+            if (book == null) return new NotFoundObjectResult("Book not found");
             if (book.UserId == null) return new BadRequestObjectResult("Book is already returned");
+            var user = await _unitOfWork.Users.GetByIdAsync((Guid)book.UserId);
+            if (user == null) return new NotFoundObjectResult("User not found");
             book.BorrowDate = null;
             book.ReturnDate = null;
             book.UserId = null;

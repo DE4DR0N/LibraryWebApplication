@@ -19,8 +19,10 @@ namespace LibraryWebApp.Application.UseCases.Books
         public async Task<IActionResult> ExecuteAsync(IssueBookViewModel model)
         {
             var book = await _unitOfWork.Books.GetByIdAsync(model.BookId);
-            if (book == null) return new NotFoundResult();
+            if (book == null) return new NotFoundObjectResult("Book not found");
             if (book.UserId != null) return new BadRequestObjectResult("Book is already taken");
+            var user = await _unitOfWork.Users.GetByIdAsync(model.UserId);
+            if (user == null) return new NotFoundObjectResult("User not found");
             book.UserId = model.UserId;
             book.BorrowDate = DateOnly.FromDateTime(DateTime.Now);
             book.ReturnDate = model.ReturnDate;
