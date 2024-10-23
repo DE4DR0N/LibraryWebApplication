@@ -19,7 +19,7 @@ namespace LibraryWebApp.Application.UseCases.Users
         {
             var user = await _unitOfWork.Users.GetByUsernameAsync(userName);
             if (user == null) return new NotFoundObjectResult("User not found");
-            return new OkObjectResult(_mapper.Map<UserViewModel>(user));
+            return new OkObjectResult(_mapper.Map<UserResponseViewModel>(user));
         }
     }
 }
