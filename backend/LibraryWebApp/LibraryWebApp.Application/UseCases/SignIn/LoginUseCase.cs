@@ -25,7 +25,6 @@ namespace LibraryWebApp.Application.UseCases.SignIn
         }
         public async Task<IActionResult> ExecuteAsync(LoginViewModel model, HttpContext httpContext)
         {
-            var response = new LoginResponseViewModel();
             var user = await _unitOfWork.Users.GetByUsernameAsync(model.Username);
             if (user != null && BCrypt.Net.BCrypt.EnhancedVerify(model.Password, user.PasswordHash))
             {
@@ -42,11 +41,9 @@ namespace LibraryWebApp.Application.UseCases.SignIn
                 user.RefreshTokenExpiry = DateTime.Now.AddHours(double.Parse(_configuration["Jwt:RefreshTokenExpiration"]));
                 _unitOfWork.Users.Update(user);
                 await _unitOfWork.CompleteAsync();
-                response.IsLoggedIn = true;
-                response.AccessToken = accessToken;
-                response.RefreshToken = refreshToken;
+                var response = new LoginResponseViewModel(accessToken, refreshToken);
                 httpContext.Response.Cookies.Append("tasty-cookies", response.AccessToken, new CookieOptions { HttpOnly = true });
-                return new OkObjectResult(new { IsLoggedIn = $"{response.IsLoggedIn}", AccessToken = $"{response.AccessToken}" });
+                return new OkObjectResult(new { AccessToken = $"{response.AccessToken}" });
             }
             return new UnauthorizedObjectResult("Invalid login attempt");
         }

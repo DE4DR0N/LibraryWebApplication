@@ -28,7 +28,6 @@ namespace LibraryWebApp.Application.UseCases.SignIn
         public async Task<IActionResult> ExecuteAsync(RefreshTokenViewModel model)
         {
             var principal = GetTokenPrincipals(model.JwtToken);
-            var response = new LoginResponseViewModel();
             if (principal?.Identity?.Name is null) return new UnauthorizedResult();
 
             var identityUser = await _unitOfWork.Users.GetByUsernameAsync(principal.Identity.Name);
@@ -48,9 +47,7 @@ namespace LibraryWebApp.Application.UseCases.SignIn
             _unitOfWork.Users.Update(identityUser);
             await _unitOfWork.CompleteAsync();
 
-            response.IsLoggedIn = true;
-            response.AccessToken = accessToken;
-            response.RefreshToken = refreshToken;
+            var response = new LoginResponseViewModel(accessToken, refreshToken);
             return new OkObjectResult(new { AccessToken = $"{response.AccessToken}", RefreshToken = $"{response.RefreshToken}" });
         }
         private ClaimsPrincipal? GetTokenPrincipals(string jwtAccess)
