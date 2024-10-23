@@ -8,7 +8,7 @@ namespace LibraryWebApp.API.Mappings
     {
         public UserMappingProfile()
         {
-            CreateMap<UserEntity, UserViewModel>().ReverseMap();
+            CreateMap<UserEntity, UserResponseViewModel>().ReverseMap();
         }
     }
 }

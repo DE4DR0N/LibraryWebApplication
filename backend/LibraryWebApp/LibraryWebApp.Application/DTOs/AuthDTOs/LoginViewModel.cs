@@ -1,8 +1,6 @@
 ﻿namespace LibraryWebApp.Application.DTOs.AuthDTOs
 {
-    public class LoginViewModel
-    {
-        public required string Username { get; set; }
-        public required string Password { get; set; }
-    }
+    public record LoginViewModel(
+        string Username,
+        string Password);
 }
