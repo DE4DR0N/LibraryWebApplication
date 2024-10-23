@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LibraryWebApp.Domain\LibraryWebApp.Domain.csproj" />
-    <ProjectReference Include="..\LibraryWebApp.Persistence\LibraryWebApp.Persistence.csproj" />
   </ItemGroup>
 
 </Project>
