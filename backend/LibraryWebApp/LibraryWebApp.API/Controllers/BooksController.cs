@@ -18,12 +18,11 @@ namespace LibraryWebApp.API.Controllers
         private readonly IDeleteBookUseCase _deleteBook;
         private readonly IIssueBookUseCase _issueBook;
         private readonly IReturnBookUseCase _returnBook;
-        private readonly ICreateImageUseCase _createImage;
         private readonly string _imagePath = Path.Combine(Directory.GetCurrentDirectory(), "StaticFiles", "Images");
 
         public BooksController(IGetAllBooksUseCase getAllBooksUseCase, IGetBookByIdUseCase getBookByIdUseCase, 
             IAddBookUseCase addBookUseCase, IUpdateBookUseCase updateBookUseCase, IDeleteBookUseCase deleteBookUseCase,
-            IIssueBookUseCase issueBookUseCase, IReturnBookUseCase returnBookUseCase, ICreateImageUseCase createImageUseCase)
+            IIssueBookUseCase issueBookUseCase, IReturnBookUseCase returnBookUseCase)
         {
             _getAllBooks = getAllBooksUseCase;
             _getBookById = getBookByIdUseCase;
@@ -32,7 +31,6 @@ namespace LibraryWebApp.API.Controllers
             _deleteBook = deleteBookUseCase;
             _issueBook = issueBookUseCase;
             _returnBook = returnBookUseCase;
-            _createImage = createImageUseCase;
         }
 
         [HttpGet]
@@ -52,16 +50,15 @@ namespace LibraryWebApp.API.Controllers
         [Authorize(Policy = "AdminOnly")]
         public async Task<IActionResult> PostBook([FromForm] BookViewModel book)
         {
-            var image = await _createImage.ExecuteAsync(book.Image, _imagePath);
-            var entity = await _addBook.ExecuteAsync(book, image);
+            var entity = await _addBook.ExecuteAsync(book, _imagePath);
             return CreatedAtAction(nameof(GetBook), new { id = entity.Id}, book);
         }
 
         [HttpPut("updateBook/{id}")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> PutBook(Guid id, [FromBody] BookViewModel book)
+        public async Task<IActionResult> PutBook(Guid id, [FromForm] BookViewModel book)
         {            
-            return await _updateBook.ExecuteAsync(id, book);
+            return await _updateBook.ExecuteAsync(id, book, _imagePath);
         }
 
         [HttpDelete("deleteBook/{id}")]

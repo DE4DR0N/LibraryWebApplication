@@ -17,6 +17,7 @@ namespace LibraryWebApp.Application.UseCases.Books
         }
         public async Task<IActionResult> ExecuteAsync(Guid userId)
         {
+            if (await _unitOfWork.Users.GetByIdAsync(userId) == null) return new NotFoundObjectResult("User not found");
             var books = await _unitOfWork.Books.GetBooksByUserAsync(userId);
             if (books == null) return new NotFoundObjectResult("No books are borrowed");
             return new OkObjectResult(_mapper.Map<IEnumerable<BookResponseViewModel>>(books));

@@ -4,6 +4,6 @@ namespace LibraryWebApp.Application.Interfaces.Images
 {
     public interface ICreateImageUseCase
     {
-        Task<string> ExecuteAsync(IFormFile titleImage, string path);
+        Task<string> ExecuteAsync(IFormFile titleImage, string path, Guid bookId);
     }
 }
