@@ -16,11 +16,12 @@ namespace LibraryWebApp.Application.UseCases.Books
             _unitOfWork = unitOfWork;
             _mapper = mapper;
         }
-        public async Task<IActionResult> ExecuteAsync(Guid id, BookViewModel bookDto)
+        public async Task<IActionResult> ExecuteAsync(Guid id, BookViewModel model)
         {
             var entBook = _unitOfWork.Books.GetByIdAsync(id);
-            if (entBook == null) return new NotFoundResult();
-            var book = _mapper.Map<BookEntity>(bookDto);
+            if (entBook == null) return new NotFoundObjectResult("Book not found");
+            var book = _mapper.Map<BookEntity>(model);
+            if (await _unitOfWork.Books.GetByIsbnAsync(model.ISBN) != null) return new ConflictObjectResult("Book with such ISBN is already exist");
             book.Id = id;
             _unitOfWork.Books.Update(book);
             await _unitOfWork.CompleteAsync();
