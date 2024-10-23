@@ -30,13 +30,21 @@ namespace LibraryWebApp.API.Middleware
         {
             _logger.LogError(exception, "An unexpected error occurred.");
 
-            ExceptionResponse response = exception switch
+            ExceptionResponse response;
+            if (exception.Message.Contains("Conflict"))
             {
-                ApplicationException _ => new ExceptionResponse(HttpStatusCode.BadRequest, "Application exception occurred."),
-                KeyNotFoundException _ => new ExceptionResponse(HttpStatusCode.NotFound, "The request key not found."),
-                UnauthorizedAccessException _ => new ExceptionResponse(HttpStatusCode.Unauthorized, "Unauthorized."),
-                _ => new ExceptionResponse(HttpStatusCode.InternalServerError, "Internal server error. Please retry later.")
-            };
+                response = new ExceptionResponse(HttpStatusCode.Conflict, exception.Message);
+            }
+            else
+            {
+                response = exception switch
+                {
+                    ApplicationException _ => new ExceptionResponse(HttpStatusCode.BadRequest, $"Application exception occurred: {exception.Message}"),
+                    KeyNotFoundException _ => new ExceptionResponse(HttpStatusCode.NotFound, $"The request key not found: {exception.Message}"),
+                    UnauthorizedAccessException _ => new ExceptionResponse(HttpStatusCode.Unauthorized, "Unauthorized."),
+                    _ => new ExceptionResponse(HttpStatusCode.InternalServerError, $"Internal server error: {exception.Message}")
+                };
+            }
 
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)response.StatusCode;
