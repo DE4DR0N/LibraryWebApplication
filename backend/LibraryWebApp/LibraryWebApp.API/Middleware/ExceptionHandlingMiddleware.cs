@@ -33,7 +33,7 @@ namespace LibraryWebApp.API.Middleware
             ExceptionResponse response;
             if (exception.Message.Contains("Conflict"))
             {
-                response = new ExceptionResponse(HttpStatusCode.Conflict, exception.Message);
+                response = new ExceptionResponse(HttpStatusCode.Conflict, $"Conflict situation occured: {exception.Message}");
             }
             else
             {
