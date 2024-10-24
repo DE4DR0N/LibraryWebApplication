@@ -30,7 +30,8 @@ namespace LibraryWebApp.Tests
                 Genre = "Fantasy",
                 Description = "English or spanish?",
                 Author = author,
-                AuthorId = author.Id
+                AuthorId = author.Id,
+                Image = "string"
             };
             context.Authors.Add(author);
             context.Books.Add(book);

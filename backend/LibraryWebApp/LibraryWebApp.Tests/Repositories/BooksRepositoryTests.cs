@@ -43,7 +43,8 @@ namespace LibraryWebApp.Tests.Repositories
                 Genre = "Fantasy",
                 Description = "Who moves fisrt is :)",
                 AuthorId = _context.Authors.First().Id,
-                Author = author
+                Author = author,
+                Image = "image"
             };
 
             // Act
