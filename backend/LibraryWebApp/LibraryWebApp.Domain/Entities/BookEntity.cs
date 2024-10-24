@@ -13,6 +13,6 @@
         public UserEntity? User { get; set; }
         public DateOnly? BorrowDate { get; set; }
         public DateOnly? ReturnDate { get; set; }
-        public string? Image { get; set; }
+        public required string Image { get; set; }
     }
 }
