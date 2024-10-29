@@ -16,7 +16,7 @@ namespace LibraryWebApp.Application.UseCases.SignUp
         public async Task<IActionResult> ExecuteAsync(RegisterViewModel model)
         {
             var user = await _unitOfWork.Users.GetByUsernameAsync(model.Username);
-            if (user != null) new BadRequestObjectResult("User is already exist");
+            if (user != null) throw new Exception("Conflict User");
             var newUser = new UserEntity
             {
                 Id = Guid.NewGuid(),
