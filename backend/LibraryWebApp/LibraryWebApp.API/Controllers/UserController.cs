@@ -19,12 +19,12 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpGet("{username}/books")]
-        public async Task<IActionResult> GetBorrowedBooks(string username)
+        public async Task<IActionResult> GetBorrowedBooks([FromRoute] string username)
         {
             return await getBooksByUser.ExecuteAsync(username);
         }
         [HttpGet("{username}")]
-        public async Task<IActionResult> GerUserByUserName(string username)
+        public async Task<IActionResult> GerUserByUserName([FromRoute] string username)
         {
             return await getUserByUsername.ExecuteAsync(username);
         }

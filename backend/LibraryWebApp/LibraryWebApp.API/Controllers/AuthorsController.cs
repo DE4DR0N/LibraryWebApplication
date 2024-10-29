@@ -32,7 +32,7 @@ namespace LibraryWebApp.API.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetAuthor(Guid id)
+        public async Task<IActionResult> GetAuthor([FromRoute] Guid id)
         {
             return await _getAuthorById.ExecuteAsync(id);
         }
@@ -54,7 +54,7 @@ namespace LibraryWebApp.API.Controllers
 
         [HttpDelete("deleteAuthor/{id}")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> DeleteAuthor(Guid id)
+        public async Task<IActionResult> DeleteAuthor([FromRoute] Guid id)
         {
             return await _deleteAuthor.ExecuteAsync(id);
         }

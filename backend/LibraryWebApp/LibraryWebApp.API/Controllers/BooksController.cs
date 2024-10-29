@@ -1,7 +1,6 @@
 ﻿using LibraryWebApp.Application.DTOs;
 using LibraryWebApp.Application.DTOs.BookDTOs;
 using LibraryWebApp.Application.Interfaces.Books;
-using LibraryWebApp.Application.Interfaces.Images;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -41,7 +40,7 @@ namespace LibraryWebApp.API.Controllers
 
         [HttpGet("{id}")]
         [Authorize]
-        public async Task<IActionResult> GetBook(Guid id)
+        public async Task<IActionResult> GetBook([FromRoute] Guid id)
         {
             return await _getBookById.ExecuteAsync(id, _imagePath);
         }
@@ -63,14 +62,14 @@ namespace LibraryWebApp.API.Controllers
 
         [HttpDelete("deleteBook/{id}")]
         [Authorize(Policy = "AdminOnly")]
-        public async Task<IActionResult> DeleteBook(Guid id)
+        public async Task<IActionResult> DeleteBook([FromRoute] Guid id)
         {
             return await _deleteBook.ExecuteAsync(id, _imagePath);
         }
 
         [HttpPost("issue")]
         [Authorize]
-        public async Task<IActionResult> IssueBookToUser(IssueBookViewModel issueBookDto)
+        public async Task<IActionResult> IssueBookToUser([FromBody] IssueBookViewModel issueBookDto)
         {
             return await _issueBook.ExecuteAsync(issueBookDto);
         }
