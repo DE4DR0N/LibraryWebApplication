@@ -8,11 +8,11 @@ namespace LibraryWebApp.API.Controllers
     [Route("[controller]")]
     [ApiController]
     [Authorize]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         private readonly IGetBooksByUserUseCase getBooksByUser;
         private readonly IGetUserByUsernameUseCase getUserByUsername;
-        public UserController(IGetBooksByUserUseCase getBooksByUserUseCase, IGetUserByUsernameUseCase getUserByUsernameUseCase)
+        public UsersController(IGetBooksByUserUseCase getBooksByUserUseCase, IGetUserByUsernameUseCase getUserByUsernameUseCase)
         {
             getUserByUsername = getUserByUsernameUseCase;
             getBooksByUser = getBooksByUserUseCase;
