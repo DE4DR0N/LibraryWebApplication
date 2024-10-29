@@ -31,7 +31,7 @@ namespace LibraryWebApp.Application.UseCases.SignIn
             if (principal?.Identity?.Name is null) return new UnauthorizedResult();
 
             var identityUser = await _unitOfWork.Users.GetByUsernameAsync(principal.Identity.Name);
-            if (identityUser is null || identityUser.RefreshToken != model.RefreshToken || identityUser.RefreshTokenExpiry > DateTime.Now)
+            if (identityUser is null || identityUser.RefreshToken != model.RefreshToken || identityUser.RefreshTokenExpiry < DateTime.Now)
                 return new UnauthorizedResult();
             var claims = new List<Claim>
                 {
