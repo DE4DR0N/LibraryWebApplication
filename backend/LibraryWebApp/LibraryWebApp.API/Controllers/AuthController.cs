@@ -34,7 +34,7 @@ namespace LibraryWebApp.API.Controllers
         [HttpPost("refreshToken")]
         public async Task<IActionResult> RefreshToken(RefreshTokenViewModel model)
         {
-            return await _refreshToken.ExecuteAsync(model);
+            return await _refreshToken.ExecuteAsync(model, HttpContext);
         }
     }
 }

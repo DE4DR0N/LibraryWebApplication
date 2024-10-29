@@ -3,6 +3,7 @@ using LibraryWebApp.Application.Interfaces.SignIn;
 using LibraryWebApp.Application.Interfaces.Tokens;
 using LibraryWebApp.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -25,7 +26,7 @@ namespace LibraryWebApp.Application.UseCases.SignIn
             _generateAccessTokenUseCase = generateAccessTokenUseCase;
             _generateRefreshTokenUseCase = generateRefreshTokenUseCase;
         }
-        public async Task<IActionResult> ExecuteAsync(RefreshTokenViewModel model)
+        public async Task<IActionResult> ExecuteAsync(RefreshTokenViewModel model, HttpContext httpContext)
         {
             var principal = GetTokenPrincipals(model.JwtToken);
             if (principal?.Identity?.Name is null) return new UnauthorizedResult();
@@ -48,6 +49,7 @@ namespace LibraryWebApp.Application.UseCases.SignIn
             await _unitOfWork.CompleteAsync();
 
             var response = new LoginResponseViewModel(accessToken, refreshToken);
+            httpContext.Response.Cookies.Append("tasty-cookies", response.AccessToken, new CookieOptions { HttpOnly = true });
             return new OkObjectResult(new { AccessToken = $"{response.AccessToken}", RefreshToken = $"{response.RefreshToken}" });
         }
         private ClaimsPrincipal? GetTokenPrincipals(string jwtAccess)
