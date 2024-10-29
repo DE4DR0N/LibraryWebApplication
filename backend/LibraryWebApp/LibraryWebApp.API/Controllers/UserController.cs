@@ -18,10 +18,10 @@ namespace LibraryWebApp.API.Controllers
             getBooksByUser = getBooksByUserUseCase;
         }
 
-        [HttpGet("{userId}/books")]
-        public async Task<IActionResult> GetBorrowedBooks(Guid userId)
+        [HttpGet("{username}/books")]
+        public async Task<IActionResult> GetBorrowedBooks(string username)
         {
-            return await getBooksByUser.ExecuteAsync(userId);
+            return await getBooksByUser.ExecuteAsync(username);
         }
         [HttpGet("{username}")]
         public async Task<IActionResult> GerUserByUserName(string username)

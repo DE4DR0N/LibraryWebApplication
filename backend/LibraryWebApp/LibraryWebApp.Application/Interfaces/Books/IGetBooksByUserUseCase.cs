@@ -4,6 +4,6 @@ namespace LibraryWebApp.Application.Interfaces.Books
 {
     public interface IGetBooksByUserUseCase
     {
-        Task<IActionResult> ExecuteAsync(Guid userId);
+        Task<IActionResult> ExecuteAsync(string username);
     }
 }
