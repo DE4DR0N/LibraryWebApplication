@@ -24,7 +24,7 @@ namespace LibraryWebApp.Application.UseCases.Authors
             updAuthor.Id = id;
             _unitOfWork.Authors.Update(updAuthor);
             await _unitOfWork.CompleteAsync();
-            return new NoContentResult();
+            return new OkResult();
         }
     }
 }

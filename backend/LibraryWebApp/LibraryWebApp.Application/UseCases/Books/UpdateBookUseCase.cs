@@ -45,7 +45,7 @@ namespace LibraryWebApp.Application.UseCases.Books
             book.Image = image;
             _unitOfWork.Books.Update(book);
             await _unitOfWork.CompleteAsync();
-            return new NoContentResult();
+            return new OkResult();
         }
     }
 }
