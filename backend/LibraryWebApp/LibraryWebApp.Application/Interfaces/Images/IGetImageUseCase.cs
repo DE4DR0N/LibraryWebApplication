@@ -2,6 +2,6 @@
 {
     public interface IGetImageUseCase
     {
-        Task<string> ExecuteAsync(string imageBook, string _imagePath);
+        Task<string> ExecuteAsync(string imageBook, string imagePath);
     }
 }

@@ -10,14 +10,14 @@ namespace LibraryWebApp.Application.UseCases.Images
         {
             _memoryCache = memoryCache;
         }
-        public async Task<string> ExecuteAsync(string imageBook, string _imagePath)
+        public async Task<string> ExecuteAsync(string imageBook, string imagePathParam)
         {
             var imageKey = Path.GetFileName(imageBook);
             var image = GetImage(imageKey);
 
             if (image == null)
             {
-                var imagePath = Path.Combine(_imagePath, imageKey);
+                var imagePath = Path.Combine(imagePathParam, imageKey);
                 if (File.Exists(imagePath))
                 {
                     image = await File.ReadAllBytesAsync(imagePath);
